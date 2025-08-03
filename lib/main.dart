@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //updated
     return MaterialApp(
       theme: ThemeData.light().copyWith(
         textTheme: ThemeData.light().textTheme.apply(fontFamily: 'inter'),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
+import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
 import 'package:meal_app/features/auth/presentation/widget/auth_button.dart';
 import 'package:meal_app/features/auth/presentation/widget/custom_text_filed.dart';
 import 'package:meal_app/features/auth/presentation/widget/other_login_method.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -13,9 +16,11 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   TextEditingController passwordController = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> key = GlobalKey();
+  final supabase = Supabase.instance.client;
   bool showed = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,79 +30,98 @@ class _LoginState extends State<Login> {
         child: Padding(
           padding: const EdgeInsets.only(top: 150.0, left: 10, right: 10),
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/images/logo.png'),
-                const SizedBox(height: 55),
-                CustomTextFiled(
-                  obscureText: false,
-                  controller: userNameController,
-                  hintText: 'user name',
-                  prefixIcon: Icon(Icons.person_outlined),
-                ),
-                const SizedBox(height: 15),
-                CustomTextFiled(
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showed = !showed;
-                      });
-                    },
-                    icon: showed
-                        ? Icon(Icons.visibility_off, color: appWhiteColor)
-                        : Icon(Icons.visibility, color: appWhiteColor),
-                  ),
-                  obscureText: showed,
-                  controller: passwordController,
-                  hintText: 'password',
-                  prefixIcon: Icon(Icons.lock_outline),
-                ),
-                const SizedBox(height: 25),
-                AuthButton(
-                  text: 'LogIn',
-                  onPressed: () {
-                    if (key.currentState!.validate()) {}
-                  },
-                ),
-                const SizedBox(height: 10),
-                Row(
+            child: BlocBuilder<AuhtCubit, AuhtState>(
+              builder: (context, state) {
+                if (state is AuhtLoading) {
+                  const Center(child: CircularProgressIndicator());
+                }
+
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: Divider(
-                        color: appWhiteColor,
-                        thickness: 1,
-                        endIndent: 10,
-                      ),
+                    Image.asset('assets/images/logo.png'),
+                    const SizedBox(height: 55),
+                    CustomTextFiled(
+                      obscureText: false,
+                      controller: emailController,
+                      hintText: 'email',
+                      prefixIcon: Icon(Icons.person_outlined),
                     ),
-                    Text(
-                      "or login with",
-                      style: TextStyle(
-                        color: appWhiteColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+                    const SizedBox(height: 15),
+                    CustomTextFiled(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            showed = !showed;
+                          });
+                        },
+                        icon: showed
+                            ? Icon(Icons.visibility_off, color: appWhiteColor)
+                            : Icon(Icons.visibility, color: appWhiteColor),
                       ),
+                      obscureText: showed,
+                      controller: passwordController,
+                      hintText: 'password',
+                      prefixIcon: Icon(Icons.lock_outline),
                     ),
-                    Expanded(
-                      child: Divider(
-                        color: appWhiteColor,
-                        thickness: 1,
-                        indent: 10,
+                    const SizedBox(height: 25),
+                    AuthButton(
+                      text: 'LogIn',
+                      onPressed: () async {
+                        if (key.currentState!.validate()) {
+                          context.read<AuhtCubit>().loginwithEmail(
+                            emailController.text,
+                            passwordController.text,
+                          );
+                          print("=================validate========");
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            color: appWhiteColor,
+                            thickness: 1,
+                            endIndent: 10,
+                          ),
+                        ),
+                        Text(
+                          "or login with",
+                          style: TextStyle(
+                            color: appWhiteColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            color: appWhiteColor,
+                            thickness: 1,
+                            indent: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    OtherLoginMethod(
+                      onGoogleTap: () async {
+                        context.read<AuhtCubit>().loginWithGoogle(context);
+                      },
+                      onFacebookTap: () async {},
+                    ),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'donot have an account ? register now',
+                        style: TextStyle(color: appWhiteColor),
                       ),
                     ),
                   ],
-                ),
-                const SizedBox(height: 20),
-                OtherLoginMethod(),
-                const SizedBox(height: 20),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'donot have an account ? register now',
-                    style: TextStyle(color: appWhiteColor),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
           ),
         ),

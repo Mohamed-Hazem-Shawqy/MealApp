@@ -8,13 +8,14 @@ class CustomTextFiled extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.prefixIcon,
-    required this.obscureText, this.suffixIcon,
+    required this.obscureText,
+    this.suffixIcon,
   });
   final TextEditingController? controller;
   final String hintText;
   final Widget prefixIcon;
   final bool obscureText;
-  final  Widget? suffixIcon;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,12 @@ class CustomTextFiled extends StatelessWidget {
       obscureText: obscureText,
       cursorColor: appWhiteColor,
       style: TextStyle(color: appWhiteColor),
-      validator: (value) => 'This filed is required',
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
@@ -31,7 +37,7 @@ class CustomTextFiled extends StatelessWidget {
         fillColor: appBlueColor,
         prefixIconColor: appWhiteColor,
         filled: true,
-        suffixIcon:suffixIcon ,
+        suffixIcon: suffixIcon,
 
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),

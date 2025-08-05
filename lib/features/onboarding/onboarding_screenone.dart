@@ -6,7 +6,6 @@ import 'package:meal_app/features/onboarding/widget/onboarding_image_section.dar
 import 'package:meal_app/features/onboarding/widget/onboarding_navigation.dart';
 import 'package:meal_app/features/onboarding/widget/onboarding_text_section.dart';
 
-
 class OnboardingScreenOne extends StatelessWidget {
   const OnboardingScreenOne({super.key});
 
@@ -22,10 +21,7 @@ class OnboardingScreenOne extends StatelessWidget {
         children: [
           ClipPath(
             clipper: BlueCurveClipper(),
-            child: Container(
-              height: screenHeight * 0.5,
-              color: blueColor,
-            ),
+            child: Container(height: screenHeight * 0.5, color: blueColor),
           ),
           SafeArea(
             child: Padding(
@@ -35,14 +31,22 @@ class OnboardingScreenOne extends StatelessWidget {
                   SizedBox(height: screenHeight * 0.03),
                   OnboardingHeader(screenWidth: screenWidth),
                   const Spacer(flex: 10),
-                  OnboardingTextSection(screenWidth: screenWidth, screenHeight: screenHeight),
+                  OnboardingTextSection(
+                    screenWidth: screenWidth,
+                    screenHeight: screenHeight,
+                  ),
                   const Spacer(flex: 2),
-                  const OnboardingNavigation(),
+                  OnboardingNavigation(currentPage: 0),
                 ],
               ),
             ),
           ),
-          OnboardingImageSection(screenWidth: screenWidth, screenHeight: screenHeight, image: 'assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png'),
+          OnboardingImageSection(
+            screenWidth: screenWidth,
+            screenHeight: screenHeight,
+            image:
+                'assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png',
+          ),
         ],
       ),
     );

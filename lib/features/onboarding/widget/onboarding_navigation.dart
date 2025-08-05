@@ -3,8 +3,14 @@ import 'package:meal_app/core/utils/app_colors.dart';
 import '../onboarding_screen_two.dart';
 
 class OnboardingNavigation extends StatelessWidget {
-  const OnboardingNavigation({super.key});
+  final int currentPage;
 
+  const OnboardingNavigation({
+    super.key,
+    required this.currentPage,
+  });
+
+  
   Widget _buildDot(bool isActive) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -26,23 +32,32 @@ class OnboardingNavigation extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('skip', style: TextStyle(color: blueColor, fontWeight: FontWeight.bold)),
+          const Text(
+            'skip',
+            style: TextStyle(
+              color: blueColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           Row(
-            children: [
-              _buildDot(true),
-              _buildDot(false),
-              _buildDot(false),
-              _buildDot(false),
-            ],
+            children: List.generate(4, (index) => _buildDot(index == currentPage)),
           ),
           GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const OnboardingScreenTwo()),
+                MaterialPageRoute(
+                  builder: (context) => const OnboardingScreenTwo(),
+                ),
               );
             },
-            child: const Text('next', style: TextStyle(color: blueColor, fontWeight: FontWeight.bold)),
+            child: const Text(
+              'next',
+              style: TextStyle(
+                color: blueColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),

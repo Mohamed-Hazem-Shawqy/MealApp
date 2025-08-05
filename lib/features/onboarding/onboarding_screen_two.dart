@@ -6,10 +6,9 @@ import 'package:meal_app/features/onboarding/widget/onboarding_image_section.dar
 import 'package:meal_app/features/onboarding/widget/onboarding_navigation.dart';
 import 'package:meal_app/features/onboarding/widget/onboarding_text_section.dart';
 
-
 class OnboardingScreenTwo extends StatelessWidget {
   const OnboardingScreenTwo({super.key});
-//  الwidgets انا فاصلهم عشان كلهم مبيقوش في صفحة واحدة
+  //  الwidgets انا فاصلهم عشان كلهم مبيقوش في صفحة واحدة
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -22,10 +21,7 @@ class OnboardingScreenTwo extends StatelessWidget {
         children: [
           ClipPath(
             clipper: BlueCurveClipper(),
-            child: Container(
-              height: screenHeight * 0.5,
-              color: blueColor,
-            ),
+            child: Container(height: screenHeight * 0.5, color: blueColor),
           ),
           SafeArea(
             child: Padding(
@@ -35,14 +31,22 @@ class OnboardingScreenTwo extends StatelessWidget {
                   SizedBox(height: screenHeight * 0.03),
                   OnboardingHeader(screenWidth: screenWidth),
                   const Spacer(flex: 10),
-                  OnboardingTextSection(screenWidth: screenWidth, screenHeight: screenHeight),
+                  OnboardingTextSection(
+                    screenWidth: screenWidth,
+                    screenHeight: screenHeight,
+                  ),
                   const Spacer(flex: 2),
-                  const OnboardingNavigation(),
+                  OnboardingNavigation(currentPage: 1),
                 ],
               ),
             ),
           ),
-          OnboardingImageSection(screenWidth: screenWidth, screenHeight: screenHeight, image: 'assets/images/onboardingimages/pizza-pizza-filled-with-tomatoes-salami-olives 1.png'),
+          OnboardingImageSection(
+            screenWidth: screenWidth,
+            screenHeight: screenHeight,
+            image:
+                'assets/images/onboardingimages/pizza-pizza-filled-with-tomatoes-salami-olives 1.png',
+          ),
         ],
       ),
     );

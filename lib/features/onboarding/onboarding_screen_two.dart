@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart';
+import 'package:meal_app/core/utils/app_colors.dart';
+import 'package:meal_app/features/onboarding/widget/blue_curve_clipper.dart';
+import 'package:meal_app/features/onboarding/widget/onboarding_header.dart';
+import 'package:meal_app/features/onboarding/widget/onboarding_image_section.dart';
+import 'package:meal_app/features/onboarding/widget/onboarding_navigation.dart';
+import 'package:meal_app/features/onboarding/widget/onboarding_text_section.dart';
+
+
+class OnboardingScreenTwo extends StatelessWidget {
+  const OnboardingScreenTwo({super.key});
+//  الwidgets انا فاصلهم عشان كلهم مبيقوش في صفحة واحدة
+  @override
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      backgroundColor: whiteColor,
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          ClipPath(
+            clipper: BlueCurveClipper(),
+            child: Container(
+              height: screenHeight * 0.5,
+              color: blueColor,
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+              child: Column(
+                children: [
+                  SizedBox(height: screenHeight * 0.03),
+                  OnboardingHeader(screenWidth: screenWidth),
+                  const Spacer(flex: 10),
+                  OnboardingTextSection(screenWidth: screenWidth, screenHeight: screenHeight),
+                  const Spacer(flex: 2),
+                  const OnboardingNavigation(),
+                ],
+              ),
+            ),
+          ),
+          OnboardingImageSection(screenWidth: screenWidth, screenHeight: screenHeight, image: 'assets/images/onboardingimages/pizza-pizza-filled-with-tomatoes-salami-olives 1.png'),
+        ],
+      ),
+    );
+  }
+}

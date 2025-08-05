@@ -1,7 +1,5 @@
-
 abstract class RepoDecl {
-
-  Future<void>userLogin(String email,String password);
-  Future<void>userLoginWithGoogle();
-  Future<void>userLoginWithFacebook();
+  Future<void> userLogin(String email, String password, context);
+  Future<void> userLoginWithGoogle(context);
+  Future<void> userLoginWithFacebook();
 }

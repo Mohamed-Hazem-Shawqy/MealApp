@@ -30,12 +30,15 @@ class _LoginState extends State<Login> {
         child: Padding(
           padding: const EdgeInsets.only(top: 150.0, left: 10, right: 10),
           child: SingleChildScrollView(
-            child: BlocBuilder<AuhtCubit, AuhtState>(
-              builder: (context, state) {
-                if (state is AuhtLoading) {
-                  const Center(child: CircularProgressIndicator());
+            child: BlocConsumer<AuhtCubit, AuhtState>(
+              listener: (context, state) {
+                if (state is AuhtFailuer) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(state.errMessage)));
                 }
-
+              },
+              builder: (context, state) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -65,18 +68,20 @@ class _LoginState extends State<Login> {
                       prefixIcon: Icon(Icons.lock_outline),
                     ),
                     const SizedBox(height: 25),
-                    AuthButton(
-                      text: 'LogIn',
-                      onPressed: () async {
-                        if (key.currentState!.validate()) {
-                          context.read<AuhtCubit>().loginwithEmail(
-                            emailController.text,
-                            passwordController.text,
-                          );
-                          print("=================validate========");
-                        }
-                      },
-                    ),
+                    state is AuhtLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : AuthButton(
+                            text: 'LogIn',
+                            onPressed: () async {
+                              if (key.currentState!.validate()) {
+                                context.read<AuhtCubit>().loginwithEmail(
+                                  emailController.text,
+                                  passwordController.text,
+                                  context,
+                                );
+                              }
+                            },
+                          ),
                     const SizedBox(height: 10),
                     Row(
                       children: [

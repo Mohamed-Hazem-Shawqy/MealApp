@@ -20,7 +20,7 @@ class OnboardingTextSection extends StatelessWidget {
           style: TextStyle(
             fontSize: screenWidth * 0.055,
             fontWeight: FontWeight.bold,
-            color: blueColor,
+            color: appBlueColor,
           ),
           textAlign: TextAlign.center,
         ),
@@ -32,7 +32,7 @@ class OnboardingTextSection extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: screenWidth * 0.035,
-              color: blueColor,
+              color: appBlueColor,
               fontWeight: FontWeight.bold,
             ),
           ),

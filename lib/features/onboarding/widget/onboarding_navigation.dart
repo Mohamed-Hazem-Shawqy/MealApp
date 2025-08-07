@@ -17,7 +17,7 @@ class OnboardingNavigation extends StatelessWidget {
       height: 8,
       width: isActive ? 24 : 8,
       decoration: BoxDecoration(
-        color: isActive ? blueColor : Colors.grey[300],
+        color: isActive ? appBlueColor : Colors.grey[300],
         borderRadius: BorderRadius.circular(20),
       ),
     );
@@ -35,7 +35,7 @@ class OnboardingNavigation extends StatelessWidget {
           const Text(
             'skip',
             style: TextStyle(
-              color: blueColor,
+              color: appBlueColor,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -54,7 +54,7 @@ class OnboardingNavigation extends StatelessWidget {
             child: const Text(
               'next',
               style: TextStyle(
-                color: blueColor,
+                color: appBlueColor,
                 fontWeight: FontWeight.bold,
               ),
             ),

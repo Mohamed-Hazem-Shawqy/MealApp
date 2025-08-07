@@ -15,13 +15,13 @@ class OnboardingScreenTwo extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: appWhiteColor,
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
           ClipPath(
             clipper: BlueCurveClipper(),
-            child: Container(height: screenHeight * 0.5, color: blueColor),
+            child: Container(height: screenHeight * 0.5, color: appBlueColor),
           ),
           SafeArea(
             child: Padding(

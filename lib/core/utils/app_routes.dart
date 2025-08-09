@@ -8,26 +8,22 @@ abstract class AppRoutes {
   static const kHome = '/home';
 
   static final router = GoRouter(
-    
-      
-  
     redirect: (context, state) {
       final bool loginRoute = state.uri.path == kLogin;
+
       final bool homeRoute = state.uri.path == kHome;
       final bool isLoggedIn =
           Supabase.instance.client.auth.currentSession != null;
-      final bool isLoggedin2 =
-          Supabase.instance.client.auth.currentUser != null;
-          
 
-      if (!isLoggedIn && !isLoggedin2) {
+      if (!isLoggedIn) {
         print('========================notlogin================');
         if (loginRoute) {
           return null;
         }
         return kLogin;
       }
-      if (isLoggedIn && isLoggedin2) {
+
+      if (isLoggedIn) {
         print('========================login================');
         if (homeRoute) {
           return null;

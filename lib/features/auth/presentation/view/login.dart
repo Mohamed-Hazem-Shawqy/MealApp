@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
+import 'package:meal_app/features/auth/data/repo_impl.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
 import 'package:meal_app/features/auth/presentation/widget/auth_button.dart';
 import 'package:meal_app/features/auth/presentation/widget/custom_text_filed.dart';
@@ -20,6 +21,27 @@ class _LoginState extends State<Login> {
   GlobalKey<FormState> key = GlobalKey();
   final supabase = Supabase.instance.client;
   bool showed = false;
+  RepoImpl repoImpl = RepoImpl();
+  Future<void> signup() async {
+    await supabase.auth.signUp(
+      email: 'hazm05771@gmail.com',
+      password: '123456',
+    );
+  }
+
+  @override
+  void initState() {
+    signup();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +105,7 @@ class _LoginState extends State<Login> {
                             },
                           ),
                     const SizedBox(height: 10),
+
                     Row(
                       children: [
                         Expanded(

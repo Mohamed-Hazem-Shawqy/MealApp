@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
+import 'package:meal_app/features/auth/presentation/widget/authCustom.dart';
 import 'package:meal_app/features/auth/presentation/widget/auth_button.dart';
 import 'package:meal_app/features/auth/presentation/widget/custom_text_filed.dart';
 import 'package:meal_app/features/auth/presentation/widget/other_login_method.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../../core/utils/app_routes.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -30,12 +34,15 @@ class _LoginState extends State<Login> {
         child: Padding(
           padding: const EdgeInsets.only(top: 150.0, left: 10, right: 10),
           child: SingleChildScrollView(
-            child: BlocBuilder<AuhtCubit, AuhtState>(
-              builder: (context, state) {
-                if (state is AuhtLoading) {
-                  const Center(child: CircularProgressIndicator());
+            child: BlocConsumer<AuhtCubit, AuhtState>(
+              listener: (context, state) {
+                if (state is AuhtFailuer) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(state.errMessage)));
                 }
-
+              },
+              builder: (context, state) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -65,45 +72,22 @@ class _LoginState extends State<Login> {
                       prefixIcon: Icon(Icons.lock_outline),
                     ),
                     const SizedBox(height: 25),
-                    AuthButton(
-                      text: 'LogIn',
-                      onPressed: () async {
-                        if (key.currentState!.validate()) {
-                          context.read<AuhtCubit>().loginwithEmail(
-                            emailController.text,
-                            passwordController.text,
-                          );
-                          print("=================validate========");
-                        }
-                      },
-                    ),
+                    state is AuhtLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : AuthButton(
+                            text: 'LogIn',
+                            onPressed: () async {
+                              if (key.currentState!.validate()) {
+                                context.read<AuhtCubit>().loginwithEmail(
+                                  emailController.text,
+                                  passwordController.text,
+                                  context,
+                                );
+                              }
+                            },
+                          ),
                     const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: appWhiteColor,
-                            thickness: 1,
-                            endIndent: 10,
-                          ),
-                        ),
-                        Text(
-                          "or login with",
-                          style: TextStyle(
-                            color: appWhiteColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: appWhiteColor,
-                            thickness: 1,
-                            indent: 10,
-                          ),
-                        ),
-                      ],
-                    ),
+                    CustomDivider(),
                     const SizedBox(height: 20),
                     OtherLoginMethod(
                       onGoogleTap: () async {
@@ -113,7 +97,9 @@ class _LoginState extends State<Login> {
                     ),
                     const SizedBox(height: 20),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.go(AppRoutes.kSignup);
+                      },
                       child: Text(
                         'donot have an account ? register now',
                         style: TextStyle(color: appWhiteColor),

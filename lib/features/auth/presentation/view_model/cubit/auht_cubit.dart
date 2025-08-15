@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meal_app/features/auth/data/repo_impl.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auht_state.dart';
 

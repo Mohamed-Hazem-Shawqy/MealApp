@@ -12,6 +12,7 @@ abstract class AppRoutes {
   static final router = GoRouter(
     redirect: (context, state) {
       final bool loginRoute = state.uri.path == kLogin;
+      final bool signupRoute = state.uri.path == kSignup;
 
       final bool homeRoute = state.uri.path == kHome;
       final bool isLoggedIn =
@@ -19,7 +20,7 @@ abstract class AppRoutes {
 
       if (!isLoggedIn) {
         print('========================notlogin================');
-        if (loginRoute) {
+        if (loginRoute||signupRoute) {
           return null;
         }
         return kLogin;

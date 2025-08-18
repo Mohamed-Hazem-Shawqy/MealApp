@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meal_app/core/utils/app_routes.dart';
-import 'package:meal_app/features/auth/data/repo_impl.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -18,21 +17,8 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  RepoImpl repoImpl = RepoImpl();
-  
-  @override
-  void initState() {
-    repoImpl.configDeepLink(context);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

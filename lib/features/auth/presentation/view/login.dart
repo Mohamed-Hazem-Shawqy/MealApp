@@ -26,10 +26,6 @@ class _LoginState extends State<Login> {
   final supabase = Supabase.instance.client;
   bool showed = false;
   RepoImpl repoImpl = RepoImpl();
-  
-  
-
- 
 
   @override
   void dispose() {
@@ -91,7 +87,7 @@ class _LoginState extends State<Login> {
                             text: 'LogIn',
                             onPressed: () async {
                               if (key.currentState!.validate()) {
-                                context.read<AuhtCubit>().loginwithEmail(
+                               await context.read<AuhtCubit>().loginwithEmail(
                                   emailController.text,
                                   passwordController.text,
                                   context,
@@ -100,9 +96,6 @@ class _LoginState extends State<Login> {
                             },
                           ),
                     const SizedBox(height: 10),
-
-
-                    
 
                     CustomDivider(),
 

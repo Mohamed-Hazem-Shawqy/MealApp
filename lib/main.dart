@@ -5,6 +5,8 @@ import 'package:meal_app/features/auth/data/repo_impl.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'core/utils/app_colors.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
@@ -40,6 +42,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routerConfig: AppRoutes.router,
         theme: ThemeData.light().copyWith(
+          scaffoldBackgroundColor: appBlueColor,
           textTheme: ThemeData.light().textTheme.apply(fontFamily: 'inter'),
         ),
       ),

@@ -14,12 +14,6 @@ void main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9teWl5ZWthYWJzb2lud3h3c2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMjc5NTgsImV4cCI6MjA2OTkwMzk1OH0.ImW998tI6KGPkz_W13kXtIG2ZeYSScWqH_OZJbz9SNk',
   );
-  Supabase.instance.client.auth.onAuthStateChange.listen((data) {
-  final AuthChangeEvent event = data.event;
-  if(event == AuthChangeEvent.signedIn) {
-    // Do something when user sign in
-  }
-});
 
   runApp(const MyApp());
 }

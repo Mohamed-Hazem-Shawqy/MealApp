@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
+import 'package:meal_app/features/auth/data/repo_impl.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
 import 'package:meal_app/features/auth/presentation/widget/authCustom.dart';
 import 'package:meal_app/features/auth/presentation/widget/auth_button.dart';
@@ -24,6 +25,14 @@ class _LoginState extends State<Login> {
   GlobalKey<FormState> key = GlobalKey();
   final supabase = Supabase.instance.client;
   bool showed = false;
+  RepoImpl repoImpl = RepoImpl();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +87,7 @@ class _LoginState extends State<Login> {
                             text: 'LogIn',
                             onPressed: () async {
                               if (key.currentState!.validate()) {
-                                context.read<AuhtCubit>().loginwithEmail(
+                               await context.read<AuhtCubit>().loginwithEmail(
                                   emailController.text,
                                   passwordController.text,
                                   context,
@@ -87,7 +96,9 @@ class _LoginState extends State<Login> {
                             },
                           ),
                     const SizedBox(height: 10),
+
                     CustomDivider(),
+
                     const SizedBox(height: 20),
                     OtherLoginMethod(
                       onGoogleTap: () async {

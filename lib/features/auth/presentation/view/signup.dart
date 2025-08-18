@@ -92,20 +92,24 @@ class _SignupState extends State<Signup> {
                       text: 'Register',
                       onPressed: () async {
                         if (key.currentState!.validate()) {
-                          context.read<AuhtCubit>().signUpWithEmail(
+                          await context.read<AuhtCubit>().signUpWithEmail(
                             name: nameController.text,
                             email: emailController.text,
                             phone: phoneController.text,
                             password: passwordController.text,
                           );
-                          print("=================validate========");
                         }
                       },
                     ),
                     const SizedBox(height: 10),
                     const CustomDivider(),
                     const SizedBox(height: 20),
-                    OtherLoginMethod(onGoogleTap: () {}, onFacebookTap: () {}),
+                    OtherLoginMethod(
+                      onGoogleTap: () {
+                        context.read<AuhtCubit>().loginWithGoogle(context);
+                      },
+                      onFacebookTap: () {},
+                    ),
                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {

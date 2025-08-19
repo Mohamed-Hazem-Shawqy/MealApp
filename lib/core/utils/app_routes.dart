@@ -1,7 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:meal_app/features/auth/presentation/view/login.dart';
 import 'package:meal_app/features/auth/presentation/view/signup.dart';
-import 'package:meal_app/features/home/presentation/view/home.dart';
+import 'package:meal_app/features/home/presentation/view/home_screen.dart';
+import 'package:meal_app/features/home/presentation/view/profile_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AppRoutes {
@@ -38,7 +39,7 @@ abstract class AppRoutes {
     routes: [
       GoRoute(path: kLogin, builder: (context, state) => const Login()),
       GoRoute(path: kSignup, builder: (context, state) => const Signup()),
-      GoRoute(path: kHome, builder: (context, state) => const Home()),
+      GoRoute(path: kHome, builder: (context, state) => HomeScreen()),
     ],
   );
 }

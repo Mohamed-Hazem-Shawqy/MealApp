@@ -30,6 +30,7 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: appBlueColor,
       body: Form(
         key: key,
         child: Padding(

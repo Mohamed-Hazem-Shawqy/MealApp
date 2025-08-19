@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meal_app/core/utils/app_routes.dart';
+import 'package:meal_app/core/widget/nav_bar.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
-import 'package:meal_app/features/onboarding/onboarding_screenone.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'core/utils/app_colors.dart';
+import 'features/home/presentation/view_model/bloc/taskBloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,15 +22,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuhtCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => AuhtCubit()),
+        BlocProvider(create: (_) => TaskBloc()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light().copyWith(
-          scaffoldBackgroundColor: appBlueColor,
           textTheme: ThemeData.light().textTheme.apply(fontFamily: 'inter'),
         ),
-        home: const OnboardingScreenOne(),
+        home: CustomNav(),
       ),
     );
   }

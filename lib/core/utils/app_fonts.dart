@@ -15,4 +15,14 @@ abstract class AppFonts {
     fontWeight: FontWeight.w400,
     color: appWhiteColor,
   );
+  static const textStyle13 = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: appBlueColor,
+  );
+  static const textStyle13White = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: appWhiteColor,
+  );
 }

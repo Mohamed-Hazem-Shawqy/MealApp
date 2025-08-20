@@ -7,7 +7,7 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const String routeName = '/home';
+  
   final SearchController _searchController = SearchController();
 
   final List<Product> products = [
@@ -16,6 +16,8 @@ class HomeScreen extends StatelessWidget {
     Product("Pasta"),
     Product("Salad"),
   ];
+
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

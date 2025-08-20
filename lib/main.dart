@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meal_app/core/widget/nav_bar.dart';
+import 'package:meal_app/core/utils/app_routes.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -27,12 +27,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => AuhtCubit()),
         BlocProvider(create: (_) => TaskBloc()),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light().copyWith(
           textTheme: ThemeData.light().textTheme.apply(fontFamily: 'inter'),
         ),
-        home: CustomNav(),
+        routerConfig: AppRoutes.router,
       ),
     );
   }

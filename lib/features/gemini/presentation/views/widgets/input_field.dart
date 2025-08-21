@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
 import 'package:meal_app/core/widget/custom_text_filed.dart';
+import 'package:meal_app/features/gemini/presentation/view_model/gemini_bloc/gemini_bloc.dart';
+import 'package:meal_app/features/gemini/presentation/view_model/user_bloc/user_bloc.dart';
 
 class InputField extends StatefulWidget {
   const InputField({super.key});
@@ -11,6 +14,7 @@ class InputField extends StatefulWidget {
 
 class _InputFieldState extends State<InputField> {
   TextEditingController messageController = TextEditingController();
+
   @override
   void dispose() {
     messageController.dispose();
@@ -30,7 +34,16 @@ class _InputFieldState extends State<InputField> {
         obscureText: false,
 
         suffixIcon: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            context.read<UserBloc>().add(
+              UserSendEvent(userMessage: messageController.text),
+            );
+            context.read<GeminiBloc>().add(
+              GeminiRsponseEvent(response: messageController.text),
+            );
+
+            messageController.clear();
+          },
           icon: const Icon(Icons.send, color: appWhiteColor),
         ),
       ),

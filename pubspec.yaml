@@ -15,9 +15,8 @@ dependencies:
   go_router: ^16.0.0
   google_sign_in: ^7.1.1
   supabase_flutter: ^2.9.1
-
+  equatable: ^2.0.7
   app_links: ^6.4.0
-
   flutter_native_splash: ^2.4.6
   google_nav_bar: ^5.0.7
   flutter_gemini: ^3.0.0

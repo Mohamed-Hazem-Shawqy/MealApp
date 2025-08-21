@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
 import 'package:meal_app/core/widget/custom_text_filed.dart';
 import 'package:meal_app/features/gemini/presentation/view_model/gemini_bloc/gemini_bloc.dart';
-import 'package:meal_app/features/gemini/presentation/view_model/user_bloc/user_bloc.dart';
+import 'package:meal_app/features/gemini/presentation/view_model/user_message_bloc/user_bloc.dart';
 
 class InputField extends StatefulWidget {
   const InputField({super.key});

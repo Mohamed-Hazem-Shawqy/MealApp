@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:meal_app/core/function/bloc_observer.dart';
 import 'package:meal_app/core/utils/app_routes.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -8,6 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'features/home/presentation/view_model/bloc/taskBloc.dart';
 
 void main() async {
+  Bloc.observer=AppBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
     url: 'https://omyiyekaabsoinwxwsic.supabase.co',

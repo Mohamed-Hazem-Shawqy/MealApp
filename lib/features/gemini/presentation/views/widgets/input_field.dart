@@ -35,14 +35,15 @@ class _InputFieldState extends State<InputField> {
 
         suffixIcon: IconButton(
           onPressed: () {
-            context.read<UserBloc>().add(
-              UserSendEvent(userMessage: messageController.text),
-            );
-            context.read<GeminiBloc>().add(
-              GeminiRsponseEvent(response: messageController.text),
-            );
-
-            messageController.clear();
+            if (messageController.text.isNotEmpty) {
+              context.read<UserBloc>().add(
+                UserSendEvent(userMessage: messageController.text),
+              );
+              context.read<GeminiBloc>().add(
+                GeminiRsponseEvent(response: messageController.text),
+              );
+              messageController.clear();
+            }
           },
           icon: const Icon(Icons.send, color: appWhiteColor),
         ),

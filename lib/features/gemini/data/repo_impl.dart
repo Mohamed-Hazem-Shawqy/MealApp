@@ -6,10 +6,13 @@ class RepoImpl implements RepoDecl {
   @override
   Future<String> geminiChat(String text) async {
     final gemini = Gemini.instance;
+    const systemPrompt = '''You are ChefGPT, a professional chef.
+      Give cooking advice and recipes. 
+      Always introduce yourself as goldenGpt, the cooking assistant.''';
 
     final response = await gemini.chat([
-      Content(parts: [Part.text(text)], role: 'user'),
-      Content(parts: [Part.text(text)], role: 'model'),
+      Content(parts: [Part.text(systemPrompt)], role: 'user'), // instructions
+      Content(parts: [Part.text(text)], role: 'user'), // user message
     ]);
     return response?.output ?? "No response";
   }

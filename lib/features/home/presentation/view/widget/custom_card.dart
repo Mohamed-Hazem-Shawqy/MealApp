@@ -16,6 +16,7 @@ class CustomCard extends StatefulWidget {
   final bool favorite;
 
   const CustomCard({
+    super.key,
     required this.imagePath,
     required this.foodKind,
     required this.foodName,
@@ -49,13 +50,10 @@ class _CustomCardState extends State<CustomCard> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: screenWidth * 0.25,
               height: screenWidth * 0.25,
-              child: CircleAvatar(
-                radius: 30,
-                child: Image.asset(widget.imagePath),
-              ),
+              child: Image.network(widget.imagePath),
             ),
             SizedBox(width: screenWidth * 0.03),
             Expanded(

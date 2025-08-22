@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -57,6 +58,7 @@ Your behavior is strictly defined as follows:
     final content = [Content.text(prompt)];
     final chat = _model.startChat(history: content);
     final response = await chat.sendMessage(Content.text(text));
+    log(response.text!);
     return response.text ?? 'Error: No response';
   }
 
@@ -88,12 +90,13 @@ Your behavior is strictly defined as follows:
       final json = jsonDecode(response.body);
 
       if (json['results'] != null && json['results'].isNotEmpty) {
+        log(json['results'][0]['image']);
         return json['results'][0]['image'];
       } else {
         return null;
       }
     } catch (e) {
-      print("Error: $e");
+      log("Error: $e");
       return null;
     }
   }

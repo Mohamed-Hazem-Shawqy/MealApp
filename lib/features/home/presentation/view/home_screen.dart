@@ -51,20 +51,20 @@ class HomeScreen extends StatelessWidget {
               ),
               CustomCard(
                 imagePath:
-                    'assets/images/onboardingimages/pizza-pizza-filled-with-tomatoes-salami-olives 1.png',
+                    'https://img.spoonacular.com/recipes/632812-312x231.jpg',
                 foodKind: 'vegan',
                 foodName: 'italian pizza',
                 ingredients: '12 ingrediantes',
                 time: '30',
               ),
-              CustomCard(
-                imagePath:
-                    'assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png',
-                foodKind: 'mmmm',
-                foodName: 'ssssssss',
-                ingredients: '12 ingrediantes',
-                time: '30',
-              ),
+              // CustomCard(
+              //   imagePath:
+              //       'assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png',
+              //   foodKind: 'mmmm',
+              //   foodName: 'ssssssss',
+              //   ingredients: '12 ingrediantes',
+              //   time: '30',
+              // ),
             ],
           ),
         ),

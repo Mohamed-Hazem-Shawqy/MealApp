@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
-    print('\u{1F7E1} Changed: ${bloc.runtimeType}');
+    print('\u{1F7E1} Changed: ${bloc.runtimeType}:$change');
     super.onChange(bloc, change);
   }
 
@@ -15,7 +15,7 @@ class AppBlocObserver extends BlocObserver {
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    print('\u{274C} Error: ${bloc.runtimeType}');
+    print('\u{274C} Error: ${bloc.runtimeType}:$error');
     super.onError(bloc, error, stackTrace);
   }
 

@@ -80,7 +80,7 @@ Your behavior is strictly defined as follows:
     Uri url = Uri.https(baseUrl, imageUrl, {
       'apiKey': 'e2a21c9bc1754ab9bd830d5d65bf7a7d',
       'query': dishName,
-      'number': '1', 
+      'number': '1',
     });
 
     try {
@@ -88,7 +88,7 @@ Your behavior is strictly defined as follows:
       final json = jsonDecode(response.body);
 
       if (json['results'] != null && json['results'].isNotEmpty) {
-        return json['results'][0]['image']; 
+        return json['results'][0]['image'];
       } else {
         return null;
       }

@@ -22,6 +22,8 @@ dependencies:
   flutter_gemini: ^3.0.0
   google_generative_ai: ^0.4.7
   http: ^1.5.0
+  hydrated_bloc: ^10.1.1
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_lints: ^5.0.0

@@ -13,7 +13,7 @@ class FavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
-        if (state is FavoriteUpdated) {
+        if (state is TaskLoaded) {
           if (state.favorites.isEmpty) {
             return Center(child: Text("No favorites yet"));
           }
@@ -23,7 +23,7 @@ class FavoriteScreen extends StatelessWidget {
               children: state.favorites
                   .map(
                     (food) => CustomCard(
-                      favorite: food.favorite,
+                      // favorite: food.favorite,
                       imagePath: food.imagePath,
                       foodKind: food.foodKind,
                       foodName: food.foodName,

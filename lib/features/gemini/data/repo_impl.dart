@@ -37,6 +37,7 @@ Schema when user input is related to cooking:
   "Fat": 0,
   "Kcal": 0,
   "Vetaimenes": 0
+  "time:0
 }
 Special Rule:
 - If the user input is UNRELATED to food, recipes, or cooking:

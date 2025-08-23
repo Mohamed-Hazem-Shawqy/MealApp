@@ -67,7 +67,10 @@ class _CustomCardState extends State<CustomCard> {
                     children: [
                       Text(widget.ingredients, style: AppFonts.textStyle13),
                       SizedBox(width: screenWidth * 0.02),
-                      Text(widget.time, style: AppFonts.textStyle16),
+                      Text(
+                        "${widget.time}:Minutes",
+                        style: AppFonts.textStyle16,
+                      ),
                     ],
                   ),
                   SizedBox(height: screenHeight * 0.005),

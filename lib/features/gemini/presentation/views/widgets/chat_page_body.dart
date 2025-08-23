@@ -58,7 +58,7 @@ class ChatPageBody extends StatelessWidget {
                                   geministate.geminiResponse[index].general,
                             )
                           : MessageRecieveShape(
-                            
+                            time: geministate.geminiResponse[index].time ,
                               message:
                                   geministate.geminiResponse[index].mealName,
                               summary:

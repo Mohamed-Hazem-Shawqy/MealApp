@@ -23,58 +23,56 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-       Scaffold(
-        backgroundColor: appWhiteColor,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                CustomSearch(
-                  products: products,
-                  searchController: _searchController,
+    return Scaffold(
+      backgroundColor: appWhiteColor,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              CustomSearch(
+                products: products,
+                searchController: _searchController,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 145.0),
+                child: CustomButton(
+                  text: 'add your ingrediantes',
+                  onPressed: () {},
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 145.0),
-                  child: CustomButton(
-                    text: 'add your ingrediantes',
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Top Recipes", style: AppFonts.textStyle18),
+                  TextButton(
                     onPressed: () {},
+                    child: Text("see all", style: AppFonts.textStyle16),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Top Recipes", style: AppFonts.textStyle18),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text("see all", style: AppFonts.textStyle16),
-                    ),
-                  ],
-                ),
-                BlocBuilder<TaskBloc, TaskState>(
-                  builder: (context, state) {
-                    if (state is HomeUpdated) {
-                      return Column(
-                        children: state.homeFood.map((food) {
-                          return CustomCard(
-                            imagePath: food.imagePath,
-                            foodKind: food.foodKind,
-                            foodName: food.foodName,
-                            ingredients: food.ingredients,
-                            time: food.time,
-                          );
-                        }).toList(),
-                      );
-                    }
-                    return const Text("No Recipes Saved Yet");
-                  },
-                ),
-              ],
-            ),
+                ],
+              ),
+              BlocBuilder<TaskBloc, TaskState>(
+                builder: (context, state) {
+                  if (state is TaskLoaded) {
+                    return Column(
+                      children: state.homeFood.map((food) {
+                        return CustomCard(
+                          imagePath: food.imagePath,
+                          foodKind: food.foodKind,
+                          foodName: food.foodName,
+                          ingredients: food.ingredients,
+                          time: food.time,
+                        );
+                      }).toList(),
+                    );
+                  }
+                  return const Center(child: Text("No Recipes Saved Yet"));
+                },
+              ),
+            ],
           ),
         ),
-      
+      ),
     );
   }
 }

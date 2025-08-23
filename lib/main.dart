@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meal_app/core/function/bloc_observer.dart';
 import 'package:meal_app/core/utils/app_routes.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'features/home/presentation/view_model/bloc/taskBloc.dart';
@@ -10,6 +12,11 @@ import 'features/home/presentation/view_model/bloc/taskBloc.dart';
 void main() async {
   Bloc.observer = AppBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: HydratedStorageDirectory(
+      (await getApplicationDocumentsDirectory()).path,
+    ),
+  );
   await Supabase.initialize(
     url: 'https://omyiyekaabsoinwxwsic.supabase.co',
     anonKey:

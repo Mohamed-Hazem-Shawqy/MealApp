@@ -57,7 +57,7 @@ class ChatPageBody extends StatelessWidget {
                     if (geministate is GeminiRecieveResponse &&
                         index < geministate.geminiResponse.length)
                       MessageRecieveShape(
-                        message: geministate.geminiResponse[index],
+                        message: geministate.geminiResponse[index].name,
                       )
                     else if (index ==
                             userstate.usermessage.length - 1 &&

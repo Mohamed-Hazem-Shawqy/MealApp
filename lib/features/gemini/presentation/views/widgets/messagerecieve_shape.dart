@@ -9,6 +9,8 @@ class MessageRecieveShape extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     log('rebuild MessageRecieveShape');
     return Padding(
       padding: EdgeInsets.only(right: MediaQuery.of(context).size.width / 3),
@@ -25,19 +27,25 @@ class MessageRecieveShape extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
             ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: appBlueColor,
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+
+            Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    height: screenHeight / 3,
+                    width: screenWidth / 3,
+                    child: Image.asset(
+                      'assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png',
+                    ),
                   ),
-                ),
-                child: Text(message, style: TextStyle(color: appWhiteColor)),
+                  Text(message, style: TextStyle(color: appBlueColor)),
+                ],
               ),
             ),
           ],

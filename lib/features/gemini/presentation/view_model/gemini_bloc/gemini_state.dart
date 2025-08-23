@@ -2,7 +2,7 @@ part of 'gemini_bloc.dart';
 
 @immutable
 sealed class GeminiState extends Equatable {
-  final List<String> geminiResponse;
+  final List<GeminiResponseShapeModel> geminiResponse;
   const GeminiState({required this.geminiResponse});
 }
 
@@ -14,7 +14,7 @@ final class GeminiInitial extends GeminiState {
 }
 
 final class GeminiLoading extends GeminiState {
-  final List<String>? previousMessages;
+  final List<GeminiResponseShapeModel>? previousMessages;
   GeminiLoading({this.previousMessages}) : super(geminiResponse: []);
 
   @override
@@ -30,7 +30,7 @@ final class GeminiRecieveResponse extends GeminiState {
 
 final class GeminiError extends GeminiState {
   final String errMessage;
-  final List<String>? response;
+  final List<GeminiResponseShapeModel>? response;
 
   GeminiError({this.response, required this.errMessage})
     : super(geminiResponse: response??[]);

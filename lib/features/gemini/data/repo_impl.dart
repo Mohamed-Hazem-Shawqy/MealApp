@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:meal_app/features/gemini/data/model.dart';
 import 'package:meal_app/features/gemini/domain/repo_decl.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
@@ -9,21 +12,50 @@ class RepoImpl implements RepoDecl {
     : _model = GenerativeModel(
         model: "gemini-2.0-flash",
         apiKey: "AIzaSyAbF7I-cHkU_EBXZlv23P29pFHwm0yEhfQ",
+        generationConfig: GenerationConfig(
+          responseMimeType: "application/json", // ensures clean JSON
+        ),
       );
 
   // AIzaSyCY5WBbA4EDbG-YQ-W5kW8hisEUmSBJNbA   (cloud)
   //AIzaSyCE_2j-vGUDY7ReUoIvynwsLJeor3T6_SU    (Ai Studio)
 
   @override
-  Future<String> geminiChat(String text) async {
-    final prompt = '''You are ChefGPT, a professional chef.
-      Give cooking advice and recipes. 
-      Always introduce yourself as goldenGpt, the cooking assistant.''';
+  Future geminiChat(String text) async {
+    final prompt = '''
+You are goldenGpt, a professional chef assistant.
+Your ONLY job is to return valid JSON data.
+
+Schema when user input is related to cooking:
+  Name: String
+  Summary: String,
+  Ingrediantes: [String],
+  Direction: ["String"],
+  Portien: 0,
+  Carp: 0,
+  Fat: 0,
+  Kcal: 0,
+  Vetaimenes: 0
+
+
+Special Rule:
+- If the user input is UNRELATED to food, recipes, or cooking:
+  answer it ordinary
+  
+     
+  
+
+Additional Rules:
+- Do NOT include markdown, code blocks, or explanations.
+- Never add text outside the JSON object.
+''';
 
     final content = [Content.text(prompt)];
     final chat = _model.startChat(history: content);
     final response = await chat.sendMessage(Content.text(text));
-    return response.text ?? 'Error: No response';
+    final reply = response.text ?? 'Error: No response';
+    final jsonData = jsonDecode(reply);
+    return GeminiResponseShapeModel.fromJson(jsonData);
   }
 
   @override

@@ -19,3 +19,10 @@ class KeepFavorite extends TaskEvent {
 
   KeepFavorite(this.food);
 }
+class AddfoodToHome extends TaskEvent {
+  final Food food;
+
+  AddfoodToHome(this.food);
+}
+
+

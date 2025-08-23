@@ -9,6 +9,11 @@ class FavoriteUpdated extends TaskState {
 
   FavoriteUpdated(this.favorites);
 }
+class HomeUpdated extends TaskState {
+  final List<Food> homeFood;
+
+  HomeUpdated(this.homeFood);
+}
 
 class KeepFavoriteUpdated extends TaskState {
   final List<Food> favorites;

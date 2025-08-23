@@ -6,6 +6,7 @@ import 'bloc_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final List<Food> _favorites = [];
+  final List<Food> _homeFood = [];
 
   TaskBloc() : super(TaskInitial()) {
     on<AddFavorite>((event, emit) {
@@ -16,6 +17,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<RemoveFavorite>((event, emit) {
       _favorites.removeWhere((f) => f.foodName == event.food.foodName);
       emit(FavoriteUpdated(List.from(_favorites)));
+    });
+    on<AddfoodToHome>((event, emit) {
+      _homeFood.add(event.food);
+      emit(HomeUpdated(List.from(_homeFood)));
     });
   }
 

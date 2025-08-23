@@ -33,12 +33,14 @@ class _ChatPageState extends State<ChatPage> {
       ],
       child: Scaffold(
         backgroundColor: appWhiteColor,
-        appBar: AppBar(title: const Text("Chat page")),
 
         body: Column(
           children: [
             Expanded(
-              child: ChatPageBody(repoImpl: repoImpl, scrollController: _scrollController),
+              child: ChatPageBody(
+                repoImpl: repoImpl,
+                scrollController: _scrollController,
+              ),
             ),
 
             const InputField(),
@@ -48,4 +50,3 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
-

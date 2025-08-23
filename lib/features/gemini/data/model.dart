@@ -1,5 +1,6 @@
 class GeminiResponseShapeModel {
-  final String name;
+  final String general;
+  final String mealName;
   final String summary;
   final List<String> ingrediantes;
   final List<String> direction;
@@ -10,7 +11,8 @@ class GeminiResponseShapeModel {
   final int vetaimenes;
 
   GeminiResponseShapeModel({
-    required this.name,
+    required this.general,
+    required this.mealName,
     required this.summary,
     required this.ingrediantes,
     required this.direction,
@@ -23,15 +25,21 @@ class GeminiResponseShapeModel {
 
   factory GeminiResponseShapeModel.fromJson(Map<String, dynamic> json) {
     return GeminiResponseShapeModel(
-      name: json['name'] ?? '',
-      summary: json['summary'] ?? '',
-      ingrediantes: json['ingrediantes'] ?? [],
-      direction: json['direction'] ?? [],
-      portien: json['portien'] ?? 0,
-      carp: json['carp'] ?? 0,
-      fat: json['fat'] ?? 0,
-      kcal: json['kcal'] ?? 0,
-      vetaimenes: json['vetaimenes'] ?? 0,
+      general: json['general']?.toString() ?? '',
+      mealName: json['Name']?.toString() ?? '',
+      summary: json['Summary']?.toString() ?? '',
+      ingrediantes:
+          (json['Ingrediantes'] as List?)?.map((e) => e.toString()).toList() ??
+          [],
+      direction:
+          (json['Direction'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      portien: json['Portien'] ?? 0,
+      carp: json['Carp'] ?? 0,
+      fat: json['Fat'] ?? 0,
+      kcal: json['Kcal'] ?? 0,
+      vetaimenes: json['Vetaimenes'] ?? 0,
     );
   }
+
+  bool get isGeneral => general.isNotEmpty && mealName.isEmpty;
 }

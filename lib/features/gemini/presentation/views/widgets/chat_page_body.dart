@@ -4,10 +4,10 @@ import 'package:meal_app/core/utils/app_colors.dart';
 import 'package:meal_app/features/gemini/data/repo_impl.dart';
 import 'package:meal_app/features/gemini/presentation/view_model/gemini_bloc/gemini_bloc.dart';
 import 'package:meal_app/features/gemini/presentation/view_model/user_message_bloc/user_bloc.dart';
+import 'package:meal_app/features/gemini/presentation/views/widgets/general_response.dart';
 import 'package:meal_app/features/gemini/presentation/views/widgets/messagerecieve_shape.dart';
 import 'package:meal_app/features/gemini/presentation/views/widgets/messagesend_shape.dart';
 import 'package:meal_app/features/gemini/presentation/views/widgets/on_loading%20.dart';
-import 'package:meal_app/features/home/presentation/view/widget/custom_card.dart';
 
 class ChatPageBody extends StatelessWidget {
   const ChatPageBody({
@@ -52,19 +52,17 @@ class ChatPageBody extends StatelessWidget {
 
                     if (geministate is GeminiRecieveResponse &&
                         index < geministate.geminiResponse.length)
-                      geministate.isMeal
-                          ? Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: CustomCard(
-                                foodKind: '',
-                                imagePath: geministate.imageUrl ?? "https://img.spoonacular.com/recipes/632812-312x231.jpg",
-                                foodName: 'Yousef',
-                                ingredients: '',
-                                time: '12',
-                              ),
-                          )
+                      geministate.geminiResponse[index].isGeneral
+                          ? GeneralResponse(
+                              generalMessage:
+                                  geministate.geminiResponse[index].general,
+                            )
                           : MessageRecieveShape(
-                              message: geministate.geminiResponse[index],
+                            
+                              message:
+                                  geministate.geminiResponse[index].mealName,
+                              summary:
+                                  geministate.geminiResponse[index].summary,
                             )
                     else if (index == userstate.usermessage.length - 1 &&
                         geministate is GeminiLoading)

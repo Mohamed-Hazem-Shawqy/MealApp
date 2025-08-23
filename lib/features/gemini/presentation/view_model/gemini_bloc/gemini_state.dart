@@ -22,15 +22,8 @@ final class GeminiLoading extends GeminiState {
 }
 
 final class GeminiRecieveResponse extends GeminiState {
-  final bool isMeal; // ⬅️ يفرق بين الرد العادي و الـ JSON
-  final Map<String, dynamic>? meal; // ⬅️ لو Meal JSON موجود
-  final String? imageUrl;
-    const GeminiRecieveResponse({
-    required super.geminiResponse,
-    this.isMeal = false,
-    this.meal,
-    this.imageUrl,
-  });
+  const GeminiRecieveResponse({required super.geminiResponse});
+
   @override
   List<Object?> get props => [geminiResponse];
 }

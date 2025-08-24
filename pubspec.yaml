@@ -24,6 +24,8 @@ dependencies:
   http: ^1.5.0
   hydrated_bloc: ^10.1.1
   path_provider: ^2.1.5
+  equatable: ^2.0.7
+
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -34,12 +36,13 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/
     - assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png
     - assets/images/onboardingimages/Chef Hat.png
     - assets/images/onboardingimages/Ellipse 39.png
     - assets/images/onboardingimages/Ellipse 7 (2).png
     - assets/images/onboardingimages/pizza-pizza-filled-with-tomatoes-salami-olives 1.png
+    - assets/images/onboardingimages/view-tasty-shawarma-dish 2.png
+    - assets/images/onboardingimages/heart (1).png
 
   fonts:
     - family: inter

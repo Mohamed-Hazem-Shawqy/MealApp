@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meal_app/features/gemini/data/model.dart';
 import 'package:meal_app/features/productdetails/presention/view/widgets/directions_tab.dart';
 import 'package:meal_app/features/productdetails/presention/view/widgets/ingredients_tab.dart';
 import 'package:meal_app/features/productdetails/presention/view/widgets/summary_tab.dart';
@@ -9,7 +10,12 @@ import '../bloc/meal_details_state.dart';
 
 class MealDetailsPage extends StatefulWidget {
   final String mealId;
-  const MealDetailsPage({super.key, required this.mealId});
+  const MealDetailsPage({
+    super.key,
+    required this.mealId,
+    required this.geminiResponseShapeModel,
+  });
+  final GeminiResponseShapeModel geminiResponseShapeModel;
 
   @override
   State<MealDetailsPage> createState() => _MealDetailsPageState();
@@ -58,20 +64,20 @@ class _MealDetailsPageState extends State<MealDetailsPage>
             final meal = state.meal;
             return Column(
               children: [
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 0.4,
                   width: MediaQuery.of(context).size.width,
                   child: Image.asset(meal.imageUrl, fit: BoxFit.cover),
                 ),
                 Text(
-                  meal.name,
+                  widget.geminiResponseShapeModel.mealName,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  "${meal.category} • ${meal.cookingTime}min • ${meal.servings} serving",
+                  "${widget.geminiResponseShapeModel.mealName} • ${widget.geminiResponseShapeModel.time}min",
                 ),
                 TabBar(
                   controller: _tabController,
@@ -85,9 +91,18 @@ class _MealDetailsPageState extends State<MealDetailsPage>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      SummaryTab(meal: meal),
-                      IngredientsTab(meal: meal),
-                      DirectionsTab(meal: meal),
+                      SummaryTab(
+                        geminiResponseShapeModel:
+                            widget.geminiResponseShapeModel,
+                      ),
+                      IngredientsTab(
+                        geminiResponseShapeModel:
+                            widget.geminiResponseShapeModel,
+                      ),
+                      DirectionsTab(
+                        geminiResponseShapeModel:
+                            widget.geminiResponseShapeModel,
+                      ),
                     ],
                   ),
                 ),

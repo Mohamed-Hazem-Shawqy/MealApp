@@ -58,11 +58,23 @@ class ChatPageBody extends StatelessWidget {
                                   geministate.geminiResponse[index].general,
                             )
                           : MessageRecieveShape(
-                            time: geministate.geminiResponse[index].time ,
+                              ingrediantes: geministate
+                                  .geminiResponse[index]
+                                  .ingrediantes,
+                              direction:
+                                  geministate.geminiResponse[index].direction,
+                              time: geministate.geminiResponse[index].time,
                               message:
                                   geministate.geminiResponse[index].mealName,
                               summary:
                                   geministate.geminiResponse[index].summary,
+                              portien:
+                                  geministate.geminiResponse[index].portien,
+                              carp: geministate.geminiResponse[index].carp,
+                              fat: geministate.geminiResponse[index].fat,
+                              kcal: geministate.geminiResponse[index].kcal,
+                              vetaimenes:
+                                  geministate.geminiResponse[index].vetaimenes,
                             )
                     else if (index == userstate.usermessage.length - 1 &&
                         geministate is GeminiLoading)

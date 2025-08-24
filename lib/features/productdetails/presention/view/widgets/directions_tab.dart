@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/features/productdetails/doamin/entits/meal.dart';
+import 'package:meal_app/features/gemini/data/model.dart';
 
 class DirectionsTab extends StatelessWidget {
-  final Meal meal;
-  const DirectionsTab({super.key, required this.meal});
+  final GeminiResponseShapeModel geminiResponseShapeModel;
+  const DirectionsTab({super.key, required this.geminiResponseShapeModel});
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ListView.builder(
       padding: const EdgeInsets.all(16),
-      children: meal.directions
-          .map((d) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Step ${d.stepNumber}", style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(d.description, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
-                ],
-              ))
-          .toList(),
+      itemCount: geminiResponseShapeModel.direction.length,
+      itemBuilder: (context, index) {
+        final step = geminiResponseShapeModel.direction[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${index + 1}. ", style: const TextStyle(fontWeight: FontWeight.bold)),
+              Expanded(
+                child: Text(step),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

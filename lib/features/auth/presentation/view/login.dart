@@ -6,7 +6,7 @@ import 'package:meal_app/features/auth/data/repo_impl.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
 import 'package:meal_app/features/auth/presentation/widget/authCustom.dart';
 import 'package:meal_app/features/auth/presentation/widget/auth_button.dart';
-import 'package:meal_app/features/auth/presentation/widget/custom_text_filed.dart';
+import 'package:meal_app/core/widget/custom_text_filed.dart';
 import 'package:meal_app/features/auth/presentation/widget/other_login_method.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

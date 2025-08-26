@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:meal_app/core/utils/app_fonts.dart';
+import 'package:meal_app/features/gemini/presentation/views/chat_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/home/presentation/view/favorite_screen.dart';
 import '../../features/home/presentation/view/home_screen.dart';
-import '../../features/home/presentation/view/profile_screen.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_routes.dart';
 
 class CustomNav extends StatefulWidget {
   static const String routeName = '/nav';
+
+  const CustomNav({super.key});
 
   @override
   State<CustomNav> createState() => _CustomNavState();
@@ -23,7 +25,7 @@ class _CustomNavState extends State<CustomNav> {
   final List<Widget> widgetOptions = [
     HomeScreen(),
     FavoriteScreen(),
-    ProfileScreen(),
+    ChatPage(),
   ];
 
   @override
@@ -60,7 +62,10 @@ class _CustomNavState extends State<CustomNav> {
                     radius: screenWidth * 0.08, // responsive radius
                   ),
                   SizedBox(width: screenWidth * 0.03), // spacing
-                  Text("user name", style: AppFonts.textStyle16),
+                  Text(
+                    "user name",
+                    style: AppFonts.textStyle16.copyWith(color: appWhiteColor),
+                  ),
                 ],
               ),
             ),
@@ -73,7 +78,10 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("home", style: AppFonts.textStyle18),
+                  Text(
+                    "home",
+                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+                  ),
                 ],
               ),
               onTap: () {},
@@ -87,10 +95,15 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("profile", style: AppFonts.textStyle18),
+                  Text(
+                    "profile",
+                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+                  ),
                 ],
               ),
-              onTap: () {},
+              onTap: () {
+                GoRouter.of(context).push(AppRoutes.kProfileScreen);
+              },
             ),
             ListTile(
               title: Row(
@@ -101,7 +114,10 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("favorite", style: AppFonts.textStyle18),
+                  Text(
+                    "favorite",
+                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+                  ),
                 ],
               ),
               onTap: () {},
@@ -115,7 +131,10 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("setting", style: AppFonts.textStyle18),
+                  Text(
+                    "setting",
+                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+                  ),
                 ],
               ),
               onTap: () {},
@@ -130,7 +149,10 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("logout", style: AppFonts.textStyle18),
+                  Text(
+                    "logout",
+                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+                  ),
                 ],
               ),
               onTap: () {
@@ -167,7 +189,7 @@ class _CustomNavState extends State<CustomNav> {
           tabs: const [
             GButton(icon: Icons.home_outlined),
             GButton(icon: Icons.favorite_border_outlined),
-            GButton(icon: Icons.person_2_outlined),
+            GButton(icon: Icons.chat),
           ],
         ),
       ),

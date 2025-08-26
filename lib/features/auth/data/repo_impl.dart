@@ -19,7 +19,7 @@ class RepoImpl implements RepoDecl {
         email: email,
       );
       if (response.session != null) {
-        GoRouter.of(context).go(AppRoutes.kHome);
+        GoRouter.of(context).go(AppRoutes.kCustomNav);
       }
     } catch (e) {
       log(e.toString());
@@ -50,7 +50,7 @@ class RepoImpl implements RepoDecl {
       Supabase.instance.client.auth.onAuthStateChange.listen((data) {
         final AuthChangeEvent event = data.event;
         if (event == AuthChangeEvent.signedIn) {
-          GoRouter.of(context).go(AppRoutes.kHome);
+          GoRouter.of(context).go(AppRoutes.kCustomNav);
         }
       });
     } catch (e) {

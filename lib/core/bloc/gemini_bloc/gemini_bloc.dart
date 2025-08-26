@@ -30,5 +30,10 @@ class GeminiBloc extends Bloc<GeminiEvent, GeminiState> {
         emit(GeminiError(errMessage: e.toString(), response: previousMessages));
       }
     });
+
+
+    
   }
+
+ 
 }

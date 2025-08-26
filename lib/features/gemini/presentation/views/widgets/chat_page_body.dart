@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
 import 'package:meal_app/features/gemini/data/repo_impl.dart';
-import 'package:meal_app/features/gemini/presentation/view_model/gemini_bloc/gemini_bloc.dart';
+import 'package:meal_app/core/bloc/gemini_bloc/gemini_bloc.dart';
 import 'package:meal_app/features/gemini/presentation/view_model/user_message_bloc/user_bloc.dart';
 import 'package:meal_app/features/gemini/presentation/views/widgets/general_response.dart';
 import 'package:meal_app/features/gemini/presentation/views/widgets/messagerecieve_shape.dart';
@@ -58,6 +58,8 @@ class ChatPageBody extends StatelessWidget {
                                   geministate.geminiResponse[index].general,
                             )
                           : MessageRecieveShape(
+                              image: geministate.geminiResponse[index].image,
+                              repoImpl: RepoImpl(),
                               ingrediantes: geministate
                                   .geminiResponse[index]
                                   .ingrediantes,

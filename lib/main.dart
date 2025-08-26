@@ -5,6 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meal_app/core/function/bloc_observer.dart';
 import 'package:meal_app/core/utils/app_routes.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
+import 'package:meal_app/core/bloc/gemini_bloc/gemini_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:meal_app/features/productdetails/data/repositories/meal_repository_impl.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
 
         BlocProvider(create: (_) => TaskBloc()),
         BlocProvider(create: (_) => MealDetailsBloc(getMealDetails)),
+        BlocProvider(create: (_) => GeminiBloc()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

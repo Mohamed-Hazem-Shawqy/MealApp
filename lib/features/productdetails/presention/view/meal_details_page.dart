@@ -61,13 +61,15 @@ class _MealDetailsPageState extends State<MealDetailsPage>
           if (state is MealDetailsLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is MealDetailsLoaded) {
-            final meal = state.meal;
             return Column(
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.4,
                   width: MediaQuery.of(context).size.width,
-                  child: Image.asset(meal.imageUrl, fit: BoxFit.cover),
+                  child: Image.network(
+                    widget.geminiResponseShapeModel.image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Text(
                   widget.geminiResponseShapeModel.mealName,

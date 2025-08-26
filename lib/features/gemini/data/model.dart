@@ -1,3 +1,4 @@
+
 class GeminiResponseShapeModel {
   final String general;
   final String mealName;
@@ -10,6 +11,8 @@ class GeminiResponseShapeModel {
   final int kcal;
   final int vetaimenes;
   final String time;
+  final String image;
+  
 
   GeminiResponseShapeModel({
     required this.general,
@@ -23,6 +26,8 @@ class GeminiResponseShapeModel {
     required this.kcal,
     required this.vetaimenes,
     required this.time,
+    required this.image,
+  
   });
 
   factory GeminiResponseShapeModel.fromJson(Map<String, dynamic> json) {
@@ -40,7 +45,9 @@ class GeminiResponseShapeModel {
       fat: json['Fat'] ?? 0,
       kcal: json['Kcal'] ?? 0,
       vetaimenes: json['Vetaimenes'] ?? 0,
-      time: (json['time'])?.toString()??"",
+      time: (json['time'])?.toString() ?? "",
+      image: (json['image'])?.toString() ?? "",
+      
     );
   }
 

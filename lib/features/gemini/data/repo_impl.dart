@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:meal_app/features/gemini/data/model.dart';
 import 'package:meal_app/features/gemini/domain/repo_decl.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
@@ -36,8 +38,9 @@ Schema when user input is related to cooking:
   "Carp": 0,
   "Fat": 0,
   "Kcal": 0,
-  "Vetaimenes": 0
-  "time:0
+  "Vetaimenes": 0,
+  "time:0,
+  
 }
 Special Rule:
 - If the user input is UNRELATED to food, recipes, or cooking:
@@ -62,6 +65,11 @@ Additional Rules:
     final reply = response.text ?? 'Error: No response';
 
     final jsonData = jsonDecode(reply);
+    if (jsonData.containsKey("Name")) {
+      final dishName = jsonData["Name"];
+      final imageUrl = await getDishImage(dishName);
+      jsonData["image"] = imageUrl ?? ""; // overwrite AI’s image
+    }
     return GeminiResponseShapeModel.fromJson(jsonData);
   }
 
@@ -77,7 +85,30 @@ Additional Rules:
       }
     });
   }
+
+  Future<String?> getDishImage(String dishName) async {
+    const String baseUrl = 'api.spoonacular.com';
+    const String imageUrl = '/recipes/complexSearch';
+
+    Uri url = Uri.https(baseUrl, imageUrl, {
+      'apiKey': 'e2a21c9bc1754ab9bd830d5d65bf7a7d',
+      'query': dishName,
+      'number': '1',
+    });
+
+    try {
+      final response = await http.get(url);
+      final json = jsonDecode(response.body);
+
+      if (json['results'] != null && json['results'].isNotEmpty) {
+        log(json['results'][0]['image']);
+        return json['results'][0]['image'];
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log("Error: $e");
+      return null;
+    }
+  }
 }
-
-
-

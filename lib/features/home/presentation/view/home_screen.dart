@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:meal_app/core/utils/app_routes.dart';
+import 'package:meal_app/features/home/domain/entites/foodCategory.dart';
 import 'package:meal_app/features/home/presentation/view/widget/custom_button.dart';
 import 'package:meal_app/features/home/presentation/view/widget/custom_card.dart';
 import 'package:meal_app/features/home/presentation/view/widget/search.dart';
@@ -51,17 +54,34 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
               BlocBuilder<TaskBloc, TaskState>(
-                builder: (context, state) {
-                  if (state is TaskLoaded) {
+                builder: (context, homestate) {
+                  if (homestate is TaskLoaded) {
                     return Column(
-                      children: state.homeFood.map((food) {
-                        return CustomCard(
-                          imagePath: food.imagePath,
-                          foodKind: food.foodKind,
-                          foodName: food.foodName,
-                          ingredients: food.ingredients,
-                          time: food.time,
+                      children: homestate.homeFood.map((food) {
+                        return GestureDetector(
+                          onTap: () {
+                            final geminiResponse = food.toGemini();
+                            GoRouter.of(context).push(
+                              AppRoutes.kMealDetailsPage,
+                              extra: geminiResponse,
+                            );
+                          },
+                          child: CustomCard(
+                            foodKind: food.foodKind,
+                            foodName: food.foodName,
+
+                            time: food.time,
+                            imagePath: food.imagePath,
+                            ingredients: food.ingredients,
+                            direction: food.direction,
+                            portien: food.portien,
+                            vetaimenes: food.vetaimenes,
+                            kcal: food.kcal,
+                            carp: food.carp,
+                            fat: food.fat,
+                          ),
                         );
                       }).toList(),
                     );

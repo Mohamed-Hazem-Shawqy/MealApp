@@ -11,9 +11,15 @@ class CustomCard extends StatefulWidget {
   final String imagePath;
   final String foodKind;
   final String foodName;
-  final String ingredients;
+  final List<String> ingredients;
+  final List<String> direction;
   final String time;
   final bool favorite;
+  final int portien;
+  final int carp;
+  final int fat;
+  final int kcal;
+  final int vetaimenes;
 
   const CustomCard({
     super.key,
@@ -21,8 +27,14 @@ class CustomCard extends StatefulWidget {
     required this.foodKind,
     required this.foodName,
     required this.ingredients,
+    required this.direction,
     required this.time,
     this.favorite = false,
+    required this.portien,
+    required this.carp,
+    required this.fat,
+    required this.kcal,
+    required this.vetaimenes,
   });
 
   @override
@@ -63,16 +75,7 @@ class _CustomCardState extends State<CustomCard> {
                   Text(widget.foodKind, style: AppFonts.textStyle13),
                   Text(widget.foodName, style: AppFonts.textStyle16),
                   SizedBox(height: screenHeight * 0.005),
-                  Row(
-                    children: [
-                      Text(widget.ingredients, style: AppFonts.textStyle13),
-                      SizedBox(width: screenWidth * 0.02),
-                      Text(
-                        "${widget.time}:Minutes",
-                        style: AppFonts.textStyle16,
-                      ),
-                    ],
-                  ),
+
                   SizedBox(height: screenHeight * 0.005),
                   Row(
                     children: List.generate(
@@ -92,10 +95,16 @@ class _CustomCardState extends State<CustomCard> {
                 builder: (context, state) {
                   final bloc = context.read<TaskBloc>();
                   final food = Food(
+                    portien: widget.portien,
+                    vetaimenes: widget.vetaimenes,
+                    kcal: widget.kcal,
+                    carp: widget.carp,
+                    fat: widget.fat,
                     foodName: widget.foodName,
                     imagePath: widget.imagePath,
                     foodKind: widget.foodKind,
                     ingredients: widget.ingredients,
+                    direction: widget.direction,
                     time: widget.time,
                   );
                   final isFavorite = bloc.isFavorite(food);
@@ -112,10 +121,16 @@ class _CustomCardState extends State<CustomCard> {
               onPressed: () {
                 final bloc = context.read<TaskBloc>();
                 final food = Food(
+                  portien: widget.portien,
+                  vetaimenes: widget.vetaimenes,
+                  kcal: widget.kcal,
+                  carp: widget.carp,
+                  fat: widget.fat,
                   foodName: widget.foodName,
                   imagePath: widget.imagePath,
                   foodKind: widget.foodKind,
                   ingredients: widget.ingredients,
+                  direction: widget.direction,
                   time: widget.time,
                 );
                 bloc.toggleFavorite(food);

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
 import 'package:meal_app/core/utils/app_routes.dart';
 import 'package:meal_app/features/gemini/data/model.dart';
+import 'package:meal_app/features/gemini/data/repo_impl.dart';
 import 'package:meal_app/features/home/domain/entites/foodCategory.dart';
 import 'package:meal_app/features/home/presentation/view_model/bloc/bloc_event.dart';
 import 'package:meal_app/features/home/presentation/view_model/bloc/bloc_state.dart';
@@ -24,10 +25,14 @@ class MessageRecieveShape extends StatelessWidget {
     required this.vetaimenes,
     required this.ingrediantes,
     required this.direction,
+    required this.repoImpl,
+    required this.image,
   });
   final String message;
   final String summary;
   final String time;
+  final String image;
+
   final int portien;
   final int carp;
   final int fat;
@@ -35,6 +40,8 @@ class MessageRecieveShape extends StatelessWidget {
   final int vetaimenes;
   final List<String> ingrediantes;
   final List<String> direction;
+
+  final RepoImpl repoImpl;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +82,7 @@ class MessageRecieveShape extends StatelessWidget {
                     kcal: kcal,
                     vetaimenes: vetaimenes,
                     time: time,
+                    image: image,
                   );
 
                   GoRouter.of(
@@ -88,14 +96,23 @@ class MessageRecieveShape extends StatelessWidget {
                     SizedBox(
                       height: screenHeight / 6,
                       width: screenWidth / 3,
-                      child: Image.asset(
-                        'assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png',
+                      child: Image.network(
+                        image,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            'assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png',
+                            fit: BoxFit.cover,
+                          );
+                        },
                       ),
                     ),
                     Expanded(
                       child: Text(
                         "$message: It's $summary",
                         style: TextStyle(color: appBlueColor),
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Padding(
@@ -103,12 +120,17 @@ class MessageRecieveShape extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           final newfood = Food(
-                            imagePath:
-                                'https://img.spoonacular.com/recipes/632812-312x231.jpg',
+                            imagePath: image,
                             foodKind: summary,
                             foodName: message,
-                            ingredients: '',
+                            ingredients: ingrediantes,
+                            direction: direction,
                             time: time,
+                            portien: portien,
+                            vetaimenes: vetaimenes,
+                            kcal: kcal,
+                            carp: carp,
+                            fat: fat,
                           );
                           context.read<TaskBloc>().add(AddfoodToHome(newfood));
                         },

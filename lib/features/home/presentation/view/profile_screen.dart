@@ -1,20 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/core/utils/app_colors.dart';
 import 'package:meal_app/features/home/presentation/view/widget/customTextForm.dart';
 import 'package:meal_app/features/home/presentation/view/widget/custom_button.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../core/utils/app_colors.dart';
-
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   static const String routeName = '/profile';
 
-  final _formKey = GlobalKey<FormState>();
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
 
+class _ProfileScreenState extends State<ProfileScreen> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
-  ProfileScreen({super.key});
+  @override
+  void initState() {
+    super.initState();
+    final user = Supabase.instance.client.auth.currentUser;
+    nameController.text = user?.userMetadata?['full_name'] ?? '';
+    emailController.text = user?.email ?? '';
+    phoneController.text = user?.userMetadata?['phone'] ?? '';
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    passController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +52,10 @@ class ProfileScreen extends StatelessWidget {
               vertical: height * 0.05,
             ),
             child: Form(
-              key: _formKey, // 👈 wrap with Form
+              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Profile Avatar with Edit Icon
                   Stack(
                     children: [
                       CircleAvatar(
@@ -59,40 +78,66 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: height * 0.04),
-
-                  // Input fields with validation
                   CustomTextFiledLight(
                     controller: nameController,
                     hintText: "User Name",
                     obscureText: false,
                   ),
                   SizedBox(height: height * 0.02),
-
                   CustomTextFiledLight(
                     controller: emailController,
                     hintText: "Email",
                     obscureText: false,
                   ),
                   SizedBox(height: height * 0.02),
-
                   CustomTextFiledLight(
                     controller: phoneController,
                     hintText: "Phone",
                     obscureText: false,
                   ),
                   SizedBox(height: height * 0.02),
-
                   CustomTextFiledLight(
                     controller: passController,
                     hintText: "Password",
                     obscureText: true,
                   ),
                   SizedBox(height: height * 0.04),
-
-                  // Save Button with validation check
                   SizedBox(
                     width: double.infinity,
-                    child: CustomButton(text: 'Save', onPressed: () {}),
+                    child: CustomButton(
+                      text: 'Save',
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          try {
+                            await Supabase.instance.client.auth.updateUser(
+                              UserAttributes(
+                                email: emailController.text,
+                                data: {
+                                  'full_name': nameController.text,
+                                  'phone': phoneController.text,
+                                },
+                              ),
+                            );
+                            if (passController.text.isNotEmpty) {
+                              await Supabase.instance.client.auth.updateUser(
+                                UserAttributes(password: passController.text),
+                              );
+                            }
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Profile updated successfully'),
+                              ),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Error updating profile: $e'),
+                              ),
+                            );
+                          }
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),

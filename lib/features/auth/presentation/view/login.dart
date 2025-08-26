@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
-import 'package:meal_app/features/auth/data/repo_impl.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
 import 'package:meal_app/features/auth/presentation/widget/authCustom.dart';
 import 'package:meal_app/features/auth/presentation/widget/auth_button.dart';
-import 'package:meal_app/features/auth/presentation/widget/custom_text_filed.dart';
 import 'package:meal_app/features/auth/presentation/widget/other_login_method.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/utils/app_routes.dart';
+import '../../../home/presentation/view/widget/customTextForm.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -23,9 +21,13 @@ class _LoginState extends State<Login> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> key = GlobalKey();
-  final supabase = Supabase.instance.client;
   bool showed = false;
-  RepoImpl repoImpl = RepoImpl();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuhtCubit>().repoImpl.configDeepLink(context);
+  }
 
   @override
   void dispose() {
@@ -45,7 +47,12 @@ class _LoginState extends State<Login> {
           child: SingleChildScrollView(
             child: BlocConsumer<AuhtCubit, AuhtState>(
               listener: (context, state) {
-                if (state is AuhtFailuer) {
+                if (state is AuhtSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Logged in successfully')),
+                  );
+                  GoRouter.of(context).go(AppRoutes.kNav);
+                } else if (state is AuhtFailuer) {
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text(state.errMessage)));
@@ -57,14 +64,25 @@ class _LoginState extends State<Login> {
                   children: [
                     Image.asset('assets/images/logo.png'),
                     const SizedBox(height: 55),
-                    CustomTextFiled(
+                    CustomTextFiledLight(
                       obscureText: false,
                       controller: emailController,
-                      hintText: 'email',
-                      prefixIcon: Icon(Icons.person_outlined),
+                      hintText: 'Email',
+                      prefixIcon: Icon(Icons.email_outlined),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        if (!RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(value)) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 15),
-                    CustomTextFiled(
+                    CustomTextFiledLight(
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -77,17 +95,26 @@ class _LoginState extends State<Login> {
                       ),
                       obscureText: showed,
                       controller: passwordController,
-                      hintText: 'password',
+                      hintText: 'Password',
                       prefixIcon: Icon(Icons.lock_outline),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 25),
                     state is AuhtLoading
                         ? Center(child: CircularProgressIndicator())
                         : AuthButton(
-                            text: 'LogIn',
+                            text: 'Log In',
                             onPressed: () async {
                               if (key.currentState!.validate()) {
-                               await context.read<AuhtCubit>().loginwithEmail(
+                                await context.read<AuhtCubit>().loginwithEmail(
                                   emailController.text,
                                   passwordController.text,
                                   context,
@@ -96,15 +123,17 @@ class _LoginState extends State<Login> {
                             },
                           ),
                     const SizedBox(height: 10),
-
                     CustomDivider(),
-
                     const SizedBox(height: 20),
                     OtherLoginMethod(
                       onGoogleTap: () async {
-                        context.read<AuhtCubit>().loginWithGoogle(context);
+                        await context.read<AuhtCubit>().loginWithGoogle(
+                          context,
+                        );
                       },
-                      onFacebookTap: () async {},
+                      onFacebookTap: () async {
+                        await context.read<AuhtCubit>().loginWithFacebook();
+                      },
                     ),
                     const SizedBox(height: 20),
                     TextButton(
@@ -112,7 +141,16 @@ class _LoginState extends State<Login> {
                         context.go(AppRoutes.kSignup);
                       },
                       child: Text(
-                        'donot have an account ? register now',
+                        'Don\'t have an account? Register now',
+                        style: TextStyle(color: appWhiteColor),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.go(AppRoutes.kResetPassword);
+                      },
+                      child: Text(
+                        'Forgot Password?',
                         style: TextStyle(color: appWhiteColor),
                       ),
                     ),

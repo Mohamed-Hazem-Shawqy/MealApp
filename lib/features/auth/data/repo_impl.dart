@@ -19,68 +19,64 @@ class RepoImpl implements RepoDecl {
         email: email,
       );
       if (response.session != null) {
-        GoRouter.of(context).go(AppRoutes.kHome);
+        log('Login successful, session created');
+        GoRouter.of(context).go(AppRoutes.kNav);
+      } else {
+        throw AuthException('Login failed: Invalid credentials');
       }
+    } on AuthException catch (e) {
+      log('Login error: ${e.message}');
+      throw e;
     } catch (e) {
-      log(e.toString());
-      rethrow;
+      log('Unexpected error: $e');
+      throw Exception('An unexpected error occurred during login');
     }
   }
 
   @override
   Future<void> userLoginWithFacebook() async {
     try {
-      await Supabase.instance.client.auth.signInWithOAuth(
+      final response = await supabase.auth.signInWithOAuth(
         OAuthProvider.facebook,
         redirectTo: 'io.supabase.flutter://login-callback',
       );
+      if (!response) {
+        throw AuthException('Facebook login failed: No response');
+      }
+      log('Facebook login initiated');
+    } on AuthException catch (e) {
+      log('Facebook login error: ${e.message}');
+      throw e;
     } catch (e) {
-      rethrow;
+      log('Unexpected error: $e');
+      throw Exception('An unexpected error occurred during Facebook login');
     }
   }
 
   @override
   Future<void> userLoginWithGoogle(context) async {
-    //first way
     try {
-      await Supabase.instance.client.auth.signInWithOAuth(
+      final response = await supabase.auth.signInWithOAuth(
         OAuthProvider.google,
         redirectTo: 'io.supabase.flutter://login-callback',
       );
-      Supabase.instance.client.auth.onAuthStateChange.listen((data) {
-        final AuthChangeEvent event = data.event;
-        if (event == AuthChangeEvent.signedIn) {
-          GoRouter.of(context).go(AppRoutes.kHome);
+      if (!response) {
+        throw AuthException('Google login failed: No response');
+      }
+      log('Google login initiated');
+      supabase.auth.onAuthStateChange.listen((data) {
+        if (data.event == AuthChangeEvent.signedIn) {
+          log('Google login successful, session created');
+          GoRouter.of(context).go(AppRoutes.kNav);
         }
       });
+    } on AuthException catch (e) {
+      log('Google login error: ${e.message}');
+      throw e;
     } catch (e) {
-      rethrow;
+      log('Unexpected error: $e');
+      throw Exception('An unexpected error occurred during Google login');
     }
-
-    // second way to signin with google
-    // try {
-    //   const webClientId =
-    //       '37159414142-6tpuepo6os67vnnj3avcu5stfbb3keqk.apps.googleusercontent.com';
-    //   const iosClientId =
-    //       '37159414142-0rcmamdqg4de0p3g9np17ui168p8en1l.apps.googleusercontent.com';
-    //   final googleSignIn = GoogleSignIn.instance;
-    //   await googleSignIn.initialize(
-    //     clientId: iosClientId,
-    //     serverClientId: webClientId,
-    //   );
-
-    //   final googleAcount = await googleSignIn.authenticate();
-    //   final idToken = googleAcount.authentication.idToken;
-
-    //   if (idToken == null) return;
-
-    //   await supabase.auth.signInWithIdToken(
-    //     provider: OAuthProvider.google,
-    //     idToken: idToken,
-    //   );
-    // } catch (e) {
-    //   rethrow;
-    // }
   }
 
   @override
@@ -88,11 +84,29 @@ class RepoImpl implements RepoDecl {
     try {
       await supabase.auth.resetPasswordForEmail(
         email,
-        redirectTo: 'myapp://change-password',
+        redirectTo: 'io.supabase.flutter://change-password',
       );
+      log('Password reset email sent');
+    } on AuthException catch (e) {
+      log('Reset password error: ${e.message}');
+      throw e;
     } catch (e) {
-      log(e.toString());
-      rethrow;
+      log('Unexpected error: $e');
+      throw Exception('An unexpected error occurred during password reset');
+    }
+  }
+
+  @override
+  Future<void> userChangePassword(String password) async {
+    try {
+      await supabase.auth.updateUser(UserAttributes(password: password));
+      log('Password changed successfully');
+    } on AuthException catch (e) {
+      log('Change password error: ${e.message}');
+      throw e;
+    } catch (e) {
+      log('Unexpected error: $e');
+      throw Exception('An unexpected error occurred during password change');
     }
   }
 
@@ -100,20 +114,13 @@ class RepoImpl implements RepoDecl {
   configDeepLink(BuildContext context) async {
     final appLinks = AppLinks();
     final deepLink = appLinks.uriLinkStream.listen((uri) {
+      log('Deep link received: $uri');
       if (uri.host == 'change-password') {
-        // GoRouter.of(context).push(AppRoutes.kChangePass);
+        GoRouter.of(context).go(AppRoutes.kChangePassword);
+      } else if (uri.host == 'login-callback') {
+        GoRouter.of(context).go(AppRoutes.kNav);
       }
     });
-    log(deepLink.toString());
-  }
-
-  @override
-  Future<void> userChangePassword(String password) async {
-    try {
-      await supabase.auth.updateUser(UserAttributes(password: password));
-    } catch (e) {
-      log(e.toString());
-      rethrow;
-    }
+    log('Deep link configured');
   }
 }

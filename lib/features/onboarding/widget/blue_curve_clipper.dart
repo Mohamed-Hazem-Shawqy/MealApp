@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//ده عشان اظبط الكيرف
+
 class BlueCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {

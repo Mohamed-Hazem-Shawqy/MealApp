@@ -8,8 +8,8 @@ import 'package:meal_app/features/onboarding/widget/onboarding_image_section.dar
 import 'package:meal_app/features/onboarding/widget/onboarding_navigation.dart';
 import 'package:meal_app/features/onboarding/widget/onboarding_text_section.dart';
 
-class OnboardingScreenTwo extends StatelessWidget {
-  const OnboardingScreenTwo({super.key});
+class OnboardingScreenFour extends StatelessWidget {
+  const OnboardingScreenFour({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,10 @@ class OnboardingScreenTwo extends StatelessWidget {
                   ),
                   const Spacer(flex: 2),
                   OnboardingNavigation(
-                    currentPage: 1,
+                    currentPage: 3,
                     onNext: () {
-                      context.go(AppRoutes.kOnboardingScreenThree);
+                      context.go(AppRoutes.kLogin);
+                      AppRoutes.setFirstLaunch();
                     },
                     onSkip: () {
                       context.go(AppRoutes.kLogin);
@@ -56,7 +57,7 @@ class OnboardingScreenTwo extends StatelessWidget {
             screenWidth: screenWidth,
             screenHeight: screenHeight,
             image:
-                'assets/images/onboardingimages/pizza-pizza-filled-with-tomatoes-salami-olives 1.png',
+                'assets/images/onboardingimages/dessert-chocolate-cake-strawberries 1.png',
           ),
         ],
       ),

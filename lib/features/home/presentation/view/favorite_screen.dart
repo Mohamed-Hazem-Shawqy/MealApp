@@ -29,6 +29,10 @@ class FavoriteScreen extends StatelessWidget {
                       foodName: food.foodName,
                       ingredients: food.ingredients,
                       time: food.time,
+                      isFavorite: context.read<TaskBloc>().isFavorite(food),
+                      onFavoritePressed: () {
+                        context.read<TaskBloc>().toggleFavorite(food);
+                      },
                     ),
                   )
                   .toList(),

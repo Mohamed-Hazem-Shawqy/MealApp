@@ -28,9 +28,10 @@ class _CustomNavState extends State<CustomNav> {
 
   @override
   Widget build(BuildContext context) {
-    // 👇 get screen width & height
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final user = Supabase.instance.client.auth.currentUser;
+    final userName = user?.userMetadata?['full_name'] ?? "User";
 
     return Scaffold(
       backgroundColor: appWhiteColor,
@@ -38,7 +39,11 @@ class _CustomNavState extends State<CustomNav> {
         backgroundColor: appWhiteColor,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Notifications not implemented yet')),
+              );
+            },
             icon: Icon(
               Icons.notifications,
               color: appBlueColor,
@@ -57,10 +62,10 @@ class _CustomNavState extends State<CustomNav> {
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.grey,
-                    radius: screenWidth * 0.08, // responsive radius
+                    radius: screenWidth * 0.08,
                   ),
-                  SizedBox(width: screenWidth * 0.03), // spacing
-                  Text("user name", style: AppFonts.textStyle16),
+                  SizedBox(width: screenWidth * 0.03),
+                  Text(userName, style: AppFonts.textStyle16),
                 ],
               ),
             ),
@@ -73,10 +78,13 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("home", style: AppFonts.textStyle18),
+                  Text("Home", style: AppFonts.textStyle18),
                 ],
               ),
-              onTap: () {},
+              onTap: () {
+                GoRouter.of(context).go(AppRoutes.kHome);
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               title: Row(
@@ -87,10 +95,14 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("profile", style: AppFonts.textStyle18),
+                  Text("Profile", style: AppFonts.textStyle18),
                 ],
               ),
-              onTap: () {},
+              onTap: () {
+                GoRouter.of(context).go(AppRoutes.kNav);
+                setState(() => _selectedIndex = 2); // Switch to Profile tab
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               title: Row(
@@ -101,10 +113,14 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("favorite", style: AppFonts.textStyle18),
+                  Text("Favorite", style: AppFonts.textStyle18),
                 ],
               ),
-              onTap: () {},
+              onTap: () {
+                GoRouter.of(context).go(AppRoutes.kNav);
+                setState(() => _selectedIndex = 1); // Switch to Favorite tab
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               title: Row(
@@ -115,10 +131,15 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("setting", style: AppFonts.textStyle18),
+                  Text("Settings", style: AppFonts.textStyle18),
                 ],
               ),
-              onTap: () {},
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Settings not implemented yet')),
+                );
+                Navigator.pop(context);
+              },
             ),
             Divider(),
             ListTile(
@@ -130,17 +151,22 @@ class _CustomNavState extends State<CustomNav> {
                     size: screenWidth * 0.06,
                   ),
                   SizedBox(width: screenWidth * 0.02),
-                  Text("logout", style: AppFonts.textStyle18),
+                  Text("Logout", style: AppFonts.textStyle18),
                 ],
               ),
-              onTap: () {
-                onPressed:
-                () async {
-                  final supabase = Supabase.instance.client;
-                  await supabase.auth.signOut();
-                  print('===============usr SignOut===============');
+              onTap: () async {
+                try {
+                  await Supabase.instance.client.auth.signOut();
                   GoRouter.of(context).go(AppRoutes.kLogin);
-                };
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Logged out successfully')),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error logging out: $e')),
+                  );
+                }
+                Navigator.pop(context);
               },
             ),
           ],
@@ -149,8 +175,8 @@ class _CustomNavState extends State<CustomNav> {
       body: widgetOptions[_selectedIndex],
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: screenWidth * 0.06, // instead of 25 fixed
-          vertical: screenHeight * 0.01, // small responsive bottom padding
+          horizontal: screenWidth * 0.06,
+          vertical: screenHeight * 0.01,
         ),
         child: GNav(
           selectedIndex: _selectedIndex,
@@ -161,7 +187,6 @@ class _CustomNavState extends State<CustomNav> {
           },
           color: appBlueColor,
           iconSize: screenWidth * 0.07,
-          // responsive icon size
           activeColor: Colors.white,
           tabBackgroundColor: appBlueColor,
           tabs: const [

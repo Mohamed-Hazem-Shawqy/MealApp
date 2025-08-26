@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
-import '../onboarding_screen_two.dart';
 
 class OnboardingNavigation extends StatelessWidget {
   final int currentPage;
+  final VoidCallback onNext;
+  final VoidCallback onSkip;
 
   const OnboardingNavigation({
     super.key,
     required this.currentPage,
+    required this.onNext,
+    required this.onSkip,
   });
 
-  
   Widget _buildDot(bool isActive) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -32,25 +34,24 @@ class OnboardingNavigation extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'skip',
-            style: TextStyle(
-              color: appBlueColor,
-              fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: onSkip,
+            child: const Text(
+              'skip',
+              style: TextStyle(
+                color: appBlueColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           Row(
-            children: List.generate(4, (index) => _buildDot(index == currentPage)),
+            children: List.generate(
+              4,
+              (index) => _buildDot(index == currentPage),
+            ),
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OnboardingScreenTwo(),
-                ),
-              );
-            },
+            onTap: onNext,
             child: const Text(
               'next',
               style: TextStyle(

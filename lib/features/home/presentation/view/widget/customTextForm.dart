@@ -9,6 +9,7 @@ class CustomTextFiledLight extends StatelessWidget {
     this.prefixIcon,
     required this.obscureText,
     this.suffixIcon,
+    this.validator,
   });
 
   final TextEditingController? controller;
@@ -16,6 +17,7 @@ class CustomTextFiledLight extends StatelessWidget {
   final Widget? prefixIcon;
   final bool obscureText;
   final Widget? suffixIcon;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +25,14 @@ class CustomTextFiledLight extends StatelessWidget {
       obscureText: obscureText,
       cursorColor: appBlueColor,
       style: TextStyle(color: appBlueColor),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'This field is required';
-        }
-        return null;
-      },
+      validator:
+          validator ??
+          (value) {
+            if (value == null || value.isEmpty) {
+              return 'This field is required';
+            }
+            return null;
+          },
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
@@ -38,7 +42,6 @@ class CustomTextFiledLight extends StatelessWidget {
         prefixIconColor: appBlueColor,
         filled: true,
         suffixIcon: suffixIcon,
-
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: appBlueColor),

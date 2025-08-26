@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class OnboardingImageSection extends StatelessWidget {
   final double screenWidth;
   final double screenHeight;
-  final String image; 
+  final String image;
 
   const OnboardingImageSection({
     required this.screenWidth,

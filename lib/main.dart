@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meal_app/core/widget/nav_bar.dart';
+import 'package:meal_app/core/utils/app_routes.dart';
 import 'package:meal_app/features/auth/presentation/view_model/cubit/auht_cubit.dart';
+import 'package:meal_app/features/home/presentation/view_model/bloc/taskBloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'features/home/presentation/view_model/bloc/taskBloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: 'https://omyiyekaabsoinwxwsic.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9teWl5ZWthYWJzb2lud3h3c2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMjc5NTgsImV4cCI6MjA2OTkwMzk1OH0.ImW998tI6KGPkz_W13kXtIG2ZeYSScWqH_OZJbz9SNk',
-  );
+  try {
+    await Supabase.initialize(
+      url: 'https://omyiyekaabsoinwxwsic.supabase.co',
+      anonKey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9teWl5ZWthYWJzb2lud3h3c2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMjc5NTgsImV4cCI6MjA2OTkwMzk1OH0.ImW998tI6KGPkz_W13kXtIG2ZeYSScWqH_OZJbz9SNk',
+    );
+  } catch (e) {
+    print('Failed to initialize Supabase: $e');
+  }
 
   runApp(const MyApp());
 }
@@ -27,12 +30,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => AuhtCubit()),
         BlocProvider(create: (_) => TaskBloc()),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light().copyWith(
           textTheme: ThemeData.light().textTheme.apply(fontFamily: 'inter'),
         ),
-        home: CustomNav(),
+        routerConfig: AppRoutes.router,
       ),
     );
   }

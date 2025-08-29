@@ -1,6 +1,25 @@
 part of 'gemini_bloc.dart';
 
-@immutable
-sealed class GeminiState {}
+abstract class GeminiState extends Equatable {
+  const GeminiState();
+  @override
+  List<Object?> get props => [];
+}
 
-final class GeminiInitial extends GeminiState {}
+class GeminiInitial extends GeminiState {}
+
+class GeminiLoading extends GeminiState {}
+
+class GeminiRecieveResponse extends GeminiState {
+  final List<GeminiResponseShapeModel> geminiResponse;
+  const GeminiRecieveResponse({required this.geminiResponse});
+  @override
+  List<Object?> get props => [geminiResponse];
+}
+
+class GeminiError extends GeminiState {
+  final String message;
+  const GeminiError(this.message);
+  @override
+  List<Object?> get props => [message];
+}

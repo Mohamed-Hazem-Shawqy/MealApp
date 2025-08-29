@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:meal_app/core/utils/app_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../features/gemini/presentation/views/chat_page.dart';
 import '../../features/home/presentation/view/favorite_screen.dart';
 import '../../features/home/presentation/view/home_screen.dart';
 import '../../features/home/presentation/view/profile_screen.dart';
@@ -38,139 +40,34 @@ class _CustomNavState extends State<CustomNav> {
       appBar: AppBar(
         backgroundColor: appWhiteColor,
         actions: [
+          // زر Chat
           IconButton(
+            icon: Icon(CupertinoIcons.chat_bubble, color: appBlueColor),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Notifications not implemented yet')),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => ChatPage()),
               );
             },
-            icon: Icon(
-              Icons.notifications,
-              color: appBlueColor,
-              size: screenWidth * 0.05,
-            ),
+          ),
+          // زر Logout
+          IconButton(
+            icon: Icon(Icons.logout, color: Colors.red),
+            onPressed: () async {
+              try {
+                await Supabase.instance.client.auth.signOut();
+                GoRouter.of(context).go(AppRoutes.kLogin);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Logged out successfully')),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error logging out: $e')),
+                );
+              }
+            },
           ),
         ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: appBlueColor),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    radius: screenWidth * 0.08,
-                  ),
-                  SizedBox(width: screenWidth * 0.03),
-                  Text(userName, style: AppFonts.textStyle16),
-                ],
-              ),
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.home_outlined,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text("Home", style: AppFonts.textStyle18),
-                ],
-              ),
-              onTap: () {
-                GoRouter.of(context).go(AppRoutes.kHome);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.person_3_outlined,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text("Profile", style: AppFonts.textStyle18),
-                ],
-              ),
-              onTap: () {
-                GoRouter.of(context).go(AppRoutes.kNav);
-                setState(() => _selectedIndex = 2); // Switch to Profile tab
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.favorite_border_outlined,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text("Favorite", style: AppFonts.textStyle18),
-                ],
-              ),
-              onTap: () {
-                GoRouter.of(context).go(AppRoutes.kNav);
-                setState(() => _selectedIndex = 1); // Switch to Favorite tab
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.settings,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text("Settings", style: AppFonts.textStyle18),
-                ],
-              ),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Settings not implemented yet')),
-                );
-                Navigator.pop(context);
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.logout,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text("Logout", style: AppFonts.textStyle18),
-                ],
-              ),
-              onTap: () async {
-                try {
-                  await Supabase.instance.client.auth.signOut();
-                  GoRouter.of(context).go(AppRoutes.kLogin);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Logged out successfully')),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error logging out: $e')),
-                  );
-                }
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
       ),
       body: widgetOptions[_selectedIndex],
       bottomNavigationBar: Padding(

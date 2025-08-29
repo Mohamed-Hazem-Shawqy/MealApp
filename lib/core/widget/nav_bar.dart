@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:meal_app/core/utils/app_fonts.dart';
 import 'package:meal_app/features/gemini/presentation/views/chat_page.dart';
 import 'package:meal_app/features/profile/presention/view/profile_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -48,6 +47,22 @@ class _CustomNavState extends State<CustomNav> {
               color: appBlueColor,
               size: screenWidth * 0.05,
             ),
+          ),
+          IconButton(
+            icon: Icon(Icons.logout, color: Colors.red),
+            onPressed: () async {
+              try {
+                await Supabase.instance.client.auth.signOut();
+                GoRouter.of(context).go(AppRoutes.kLogin);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Logged out successfully')),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error logging out: $e')),
+                );
+              }
+            },
           ),
         ],
       ),

@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-
-class Product {
-  final String label;
-
-  Product(this.label);
-}
+import 'package:meal_app/features/home/domain/entites/foodCategory.dart';
 
 class CustomSearch extends StatelessWidget {
-  final List<Product> products;
+  final List<Food> foods;
   final SearchController searchController;
 
   const CustomSearch({
-    Key? key,
-    required this.products,
+    super.key,
+    required this.foods,
     required this.searchController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +18,16 @@ class CustomSearch extends StatelessWidget {
       searchController: searchController,
       suggestionsBuilder: (context, controller) {
         final input = controller.value.text;
-        final filtered = products
-            .where((p) => p.label.toLowerCase().contains(input.toLowerCase()))
+        final filtered = foods
+            .where((f) => f.foodName.toLowerCase().contains(input.toLowerCase()))
             .toList();
 
         return List<Widget>.generate(filtered.length, (index) {
-          final product = filtered[index];
+          final food = filtered[index];
           return ListTile(
-            title: Text(product.label),
+            title: Text(food.foodName),
             onTap: () {
-              controller.closeView(product.label);
-              // you can add callback or navigation here
+              controller.closeView(food.foodName);
             },
           );
         });

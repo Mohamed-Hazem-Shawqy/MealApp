@@ -15,13 +15,6 @@ import '../../../../core/utils/app_fonts.dart';
 class HomeScreen extends StatelessWidget {
   final SearchController _searchController = SearchController();
 
-  final List<Product> products = [
-    Product("Pizza"),
-    Product("Burger"),
-    Product("Pasta"),
-    Product("Salad"),
-  ];
-
   HomeScreen({super.key});
 
   @override
@@ -31,65 +24,45 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              CustomSearch(
-                products: products,
-                searchController: _searchController,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 145.0),
-                child: CustomButton(
-                  text: 'add your ingrediantes',
-                  onPressed: () {},
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Top Recipes", style: AppFonts.textStyle18),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text("see all", style: AppFonts.textStyle16),
-                  ),
-                ],
-              ),
-
-              BlocBuilder<TaskBloc, TaskState>(
-                builder: (context, homestate) {
-                  if (homestate is TaskLoaded) {
-                    return Column(
-                      children: homestate.homeFood.map((food) {
-                        return GestureDetector(
-                          onTap: () {
-                            final geminiResponse = food.toGemini();
-                            GoRouter.of(context).push(
-                              AppRoutes.kMealDetailsPage,
-                              extra: geminiResponse,
-                            );
-                          },
-                          child: CustomCard(
-                            foodKind: food.foodKind,
-                            foodName: food.foodName,
-
-                            time: food.time,
-                            imagePath: food.imagePath,
-                            ingredients: food.ingredients,
-                            direction: food.direction,
-                            portien: food.portien,
-                            vetaimenes: food.vetaimenes,
-                            kcal: food.kcal,
-                            carp: food.carp,
-                            fat: food.fat,
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  }
-                  return const Center(child: Text("No Recipes Saved Yet"));
-                },
-              ),
-            ],
+          child: BlocBuilder<TaskBloc, TaskState>(
+            builder: (context, homestate) {
+              if (homestate is TaskLoaded) {
+                return Column(
+                  children: [
+                    CustomSearch(
+                      foods: homestate.homeFood,
+                      searchController: _searchController,
+                    ),
+                    const SizedBox(height: 20),
+                    ...homestate.homeFood.map((food) {
+                      return GestureDetector(
+                        onTap: () {
+                          final geminiResponse = food.toGemini();
+                          GoRouter.of(context).push(
+                            AppRoutes.kMealDetailsPage,
+                            extra: geminiResponse,
+                          );
+                        },
+                        child: CustomCard(
+                          foodKind: food.foodKind,
+                          foodName: food.foodName,
+                          time: food.time,
+                          imagePath: food.imagePath,
+                          ingredients: food.ingredients,
+                          direction: food.direction,
+                          portien: food.portien,
+                          vetaimenes: food.vetaimenes,
+                          kcal: food.kcal,
+                          carp: food.carp,
+                          fat: food.fat,
+                        ),
+                      );
+                    }),
+                  ],
+                );
+              }
+              return const Center(child: Text("No Recipes Saved Yet"));
+            },
           ),
         ),
       ),

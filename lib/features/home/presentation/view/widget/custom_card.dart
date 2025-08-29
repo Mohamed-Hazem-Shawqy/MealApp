@@ -62,31 +62,45 @@ class _CustomCardState extends State<CustomCard> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: screenWidth * 0.25,
-              height: screenWidth * 0.25,
-              child: Image.network(widget.imagePath),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                widget.imagePath,
+                width: screenWidth * 0.30,
+                height: screenWidth * 0.25,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Image.asset(
+                  'assets/images/placeholder.png',
+                  width: screenWidth * 0.3,
+                  height: screenWidth * 0.3,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             SizedBox(width: screenWidth * 0.03),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.foodKind, style: AppFonts.textStyle13),
                   Text(widget.foodName, style: AppFonts.textStyle16),
+                  Text(
+                    widget.foodKind,
+                    style: AppFonts.textStyle13,
+                    maxLines: 2,
+                  ),
                   SizedBox(height: screenHeight * 0.005),
 
-                  SizedBox(height: screenHeight * 0.005),
-                  Row(
-                    children: List.generate(
-                      5,
-                      (index) => Icon(
-                        Icons.star,
-                        color: Colors.orangeAccent,
-                        size: screenWidth * 0.05,
-                      ),
-                    ),
-                  ),
+                  // SizedBox(height: screenHeight * 0.005),
+                  // Row(
+                  //   children: List.generate(
+                  //     5,
+                  //     (index) => Icon(
+                  //       Icons.star,
+                  //       color: Colors.orangeAccent,
+                  //       size: screenWidth * 0.05,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -113,7 +127,8 @@ class _CustomCardState extends State<CustomCard> {
                     isFavorite
                         ? Icons.favorite
                         : Icons.favorite_border_outlined,
-                    color: appBlueColor,
+                    color: Colors.red,
+                    //color: appBlueColor,
                   );
                 },
               ),

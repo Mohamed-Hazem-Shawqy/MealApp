@@ -43,17 +43,6 @@ class _MealDetailsPageState extends State<MealDetailsPage>
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Image.asset(
-              'assets/images/onboardingimages/heart (1).png',
-              width: 24,
-              height: 24,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ],
       ),
       backgroundColor: Colors.white,
       body: BlocBuilder<MealDetailsBloc, MealDetailsState>(

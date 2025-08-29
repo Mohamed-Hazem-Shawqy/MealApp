@@ -4,7 +4,7 @@ import 'package:meal_app/features/auth/presentation/view/login.dart';
 import 'package:meal_app/features/auth/presentation/view/signup.dart';
 import 'package:meal_app/features/gemini/data/model.dart';
 import 'package:meal_app/features/gemini/presentation/views/chat_page.dart';
-import 'package:meal_app/features/home/presentation/view/profile_screen.dart';
+import 'package:meal_app/features/profile/presention/view/profile_screen.dart';
 import 'package:meal_app/features/onboarding/onboarding_screen_two.dart';
 import 'package:meal_app/features/onboarding/onboarding_screenone.dart';
 import 'package:meal_app/features/productdetails/presention/view/meal_details_page.dart';

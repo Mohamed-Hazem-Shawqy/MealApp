@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:meal_app/core/utils/app_fonts.dart';
 import 'package:meal_app/features/gemini/presentation/views/chat_page.dart';
+import 'package:meal_app/features/profile/presention/view/profile_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/home/presentation/view/favorite_screen.dart';
@@ -26,6 +27,7 @@ class _CustomNavState extends State<CustomNav> {
     HomeScreen(),
     FavoriteScreen(),
     ChatPage(),
+    ProfileScreen(),
   ];
 
   @override
@@ -49,125 +51,125 @@ class _CustomNavState extends State<CustomNav> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: appBlueColor),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    radius: screenWidth * 0.08, // responsive radius
-                  ),
-                  SizedBox(width: screenWidth * 0.03), // spacing
-                  Text(
-                    "user name",
-                    style: AppFonts.textStyle16.copyWith(color: appWhiteColor),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.home_outlined,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text(
-                    "home",
-                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
-                  ),
-                ],
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.person_3_outlined,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text(
-                    "profile",
-                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
-                  ),
-                ],
-              ),
-              onTap: () {
-                GoRouter.of(context).push(AppRoutes.kProfileScreen);
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.favorite_border_outlined,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text(
-                    "favorite",
-                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
-                  ),
-                ],
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.settings,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text(
-                    "setting",
-                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
-                  ),
-                ],
-              ),
-              onTap: () {},
-            ),
-            Divider(),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.logout,
-                    color: appBlueColor,
-                    size: screenWidth * 0.06,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text(
-                    "logout",
-                    style: AppFonts.textStyle18.copyWith(color: appBlueColor),
-                  ),
-                ],
-              ),
-              onTap: () {
-                onPressed:
-                () async {
-                  final supabase = Supabase.instance.client;
-                  await supabase.auth.signOut();
-                  print('===============usr SignOut===============');
-                  GoRouter.of(context).go(AppRoutes.kLogin);
-                };
-              },
-            ),
-          ],
-        ),
-      ),
+      // drawer: Drawer(
+      //   child: ListView(
+      //     padding: EdgeInsets.zero,
+      //     children: [
+      //       DrawerHeader(
+      //         decoration: BoxDecoration(color: appBlueColor),
+      //         child: Row(
+      //           children: [
+      //             CircleAvatar(
+      //               backgroundColor: Colors.grey,
+      //               radius: screenWidth * 0.08, // responsive radius
+      //             ),
+      //             SizedBox(width: screenWidth * 0.03), // spacing
+      //             Text(
+      //               "user name",
+      //               style: AppFonts.textStyle16.copyWith(color: appWhiteColor),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       ListTile(
+      //         title: Row(
+      //           children: [
+      //             Icon(
+      //               Icons.home_outlined,
+      //               color: appBlueColor,
+      //               size: screenWidth * 0.06,
+      //             ),
+      //             SizedBox(width: screenWidth * 0.02),
+      //             Text(
+      //               "home",
+      //               style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+      //             ),
+      //           ],
+      //         ),
+      //         onTap: () {},
+      //       ),
+      //       ListTile(
+      //         title: Row(
+      //           children: [
+      //             Icon(
+      //               Icons.person_3_outlined,
+      //               color: appBlueColor,
+      //               size: screenWidth * 0.06,
+      //             ),
+      //             SizedBox(width: screenWidth * 0.02),
+      //             Text(
+      //               "profile",
+      //               style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+      //             ),
+      //           ],
+      //         ),
+      //         onTap: () {
+      //           GoRouter.of(context).push(AppRoutes.kProfileScreen);
+      //         },
+      //       ),
+      //       ListTile(
+      //         title: Row(
+      //           children: [
+      //             Icon(
+      //               Icons.favorite_border_outlined,
+      //               color: appBlueColor,
+      //               size: screenWidth * 0.06,
+      //             ),
+      //             SizedBox(width: screenWidth * 0.02),
+      //             Text(
+      //               "favorite",
+      //               style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+      //             ),
+      //           ],
+      //         ),
+      //         onTap: () {},
+      //       ),
+      //       ListTile(
+      //         title: Row(
+      //           children: [
+      //             Icon(
+      //               Icons.settings,
+      //               color: appBlueColor,
+      //               size: screenWidth * 0.06,
+      //             ),
+      //             SizedBox(width: screenWidth * 0.02),
+      //             Text(
+      //               "setting",
+      //               style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+      //             ),
+      //           ],
+      //         ),
+      //         onTap: () {},
+      //       ),
+      //       Divider(),
+      //       ListTile(
+      //         title: Row(
+      //           children: [
+      //             Icon(
+      //               Icons.logout,
+      //               color: appBlueColor,
+      //               size: screenWidth * 0.06,
+      //             ),
+      //             SizedBox(width: screenWidth * 0.02),
+      //             Text(
+      //               "logout",
+      //               style: AppFonts.textStyle18.copyWith(color: appBlueColor),
+      //             ),
+      //           ],
+      //         ),
+      //         onTap: () {
+      //           onPressed:
+      //           () async {
+      //             final supabase = Supabase.instance.client;
+      //             await supabase.auth.signOut();
+      //             print('===============usr SignOut===============');
+      //             GoRouter.of(context).go(AppRoutes.kLogin);
+      //           };
+      //         },
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: widgetOptions[_selectedIndex],
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(
@@ -190,6 +192,7 @@ class _CustomNavState extends State<CustomNav> {
             GButton(icon: Icons.home_outlined),
             GButton(icon: Icons.favorite_border_outlined),
             GButton(icon: Icons.chat),
+            GButton(icon: Icons.person),
           ],
         ),
       ),

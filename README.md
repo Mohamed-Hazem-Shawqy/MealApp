@@ -1,7 +1,8 @@
 🍽️ Meal App
 
-A Flutter-based mobile application for browsing, recognizing, and managing meals. Built with BLoC state management, MVVM architecture, Supabase Authentication & Storage, and Gemini AI for smart meal recognition.
-
+A Flutter-based mobile application for browsing, recognizing, and managing meals. Built with BLoC state management, MVVM architecture,
+Supabase Authentication & Storage, and Gemini AI for smart meal recognition.
+---------------------------
 🚀 Features
 
 🔐 Authentication
@@ -19,7 +20,7 @@ Google Sign-In
 🤖 Gemini AI Meal Recognition: upload an image → get meal name, ingredients, nutrition, and summary.
 
 🎨 Custom UI with splash screen, onboarding, and Google Nav Bar.
-
+-------------------------------------
 
 🛠️ Tech Stack
 
@@ -48,7 +49,7 @@ flutter_native_splash → custom splash screen
 
 google_nav_bar → bottom navigation bar
 
-
+-------------------------------------------
 📂 Project Structure
 lib/
 │── core/                  # Constants, themes, helpers
@@ -59,7 +60,7 @@ lib/
 │   │   ├── domain/        # Entities & UseCases
 │   │   ├── view/          # UI Screens & Widgets
 │── main.dart
-
+-------------------------------------------
 📸 Assets
 
 The app includes onboarding & UI assets:
@@ -71,7 +72,7 @@ The app includes onboarding & UI assets:
 👨‍🍳 Chef Hat.png
 
 🎨 Ellipse background assets
-
+====================================
 
 
 🤝 Contribution
@@ -83,6 +84,10 @@ Create a new branch (feature/your-feature)
 Commit changes
 
 Push and create a Pull Request
+
+----------------------------------------
+[Watch Demo Video on Google Drive]()
+
 
 
 

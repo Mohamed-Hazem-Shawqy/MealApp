@@ -58,16 +58,17 @@ class MessageRecieveShape extends StatelessWidget {
         ),
 
         Expanded(
-          child: Card(
-            child: BlocListener<TaskBloc, TaskState>(
-              listener: (context, state) {
-                if (state is TaskLoaded) {
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Recibe added to home')),
-                  );
-                }
-              },
+          child: BlocListener<TaskBloc, TaskState>(
+            listener: (context, state) {
+              if (state is TaskLoaded) {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text('Recibe added to home')));
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: GestureDetector(
                 onTap: () {
                   final geminiResponse = GeminiResponseShapeModel(
@@ -89,55 +90,102 @@ class MessageRecieveShape extends StatelessWidget {
                     context,
                   ).push(AppRoutes.kMealDetailsPage, extra: geminiResponse);
                 },
-                child: Row(
-                  spacing: 5,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: screenHeight / 6,
-                      width: screenWidth / 3,
-                      child: Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            'assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png',
-                            fit: BoxFit.cover,
-                          );
-                        },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 4,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                     
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          bottomLeft: Radius.circular(16),
+                        ),
+                        child: Image.network(
+                          image,
+                          height: screenHeight / 6,
+                          width: screenWidth / 3,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/images/onboardingimages/well-done-steak-homemade-potatoes 1@2x.png',
+                              height: screenHeight / 6,
+                              width: screenWidth / 3,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "$message: It's $summary",
-                        style: TextStyle(color: appBlueColor),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
+
+                     
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // اسم الأكلة
+                              Text(
+                                message,
+                                style: TextStyle(
+                                  color: appBlueColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+
+                              const SizedBox(height: 6),
+
+                            
+                              Text(
+                                summary,
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 14,
+                                ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+
+                              const SizedBox(height: 10),
+
+                       
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.bookmark_add_outlined,
+                                    color: Colors.blueAccent,
+                                  ),
+                                  onPressed: () {
+                                    final newfood = Food(
+                                      imagePath: image,
+                                      foodKind: summary,
+                                      foodName: message,
+                                      ingredients: ingrediantes,
+                                      direction: direction,
+                                      time: time,
+                                      portien: portien,
+                                      vetaimenes: vetaimenes,
+                                      kcal: kcal,
+                                      carp: carp,
+                                      fat: fat,
+                                    );
+                                    context.read<TaskBloc>().add(
+                                      AddfoodToHome(newfood),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsGeometry.only(top: screenHeight / 9),
-                      child: TextButton(
-                        onPressed: () {
-                          final newfood = Food(
-                            imagePath: image,
-                            foodKind: summary,
-                            foodName: message,
-                            ingredients: ingrediantes,
-                            direction: direction,
-                            time: time,
-                            portien: portien,
-                            vetaimenes: vetaimenes,
-                            kcal: kcal,
-                            carp: carp,
-                            fat: fat,
-                          );
-                          context.read<TaskBloc>().add(AddfoodToHome(newfood));
-                        },
-                        child: Text('Save'),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

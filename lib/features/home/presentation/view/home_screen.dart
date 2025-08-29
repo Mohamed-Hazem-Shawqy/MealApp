@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meal_app/core/utils/app_routes.dart';
 import 'package:meal_app/features/home/domain/entites/foodCategory.dart';
-import 'package:meal_app/features/home/presentation/view/widget/custom_button.dart';
 import 'package:meal_app/features/home/presentation/view/widget/custom_card.dart';
 import 'package:meal_app/features/home/presentation/view/widget/search.dart';
 import 'package:meal_app/features/home/presentation/view_model/bloc/bloc_state.dart';
 import 'package:meal_app/features/home/presentation/view_model/bloc/taskBloc.dart';
 
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
   final SearchController _searchController = SearchController();

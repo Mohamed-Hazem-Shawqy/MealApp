@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meal_app/core/utils/app_colors.dart';
 import 'package:meal_app/core/utils/app_fonts.dart';
 
 import '../../../domain/entites/foodCategory.dart';
@@ -89,7 +88,7 @@ class _CustomCardState extends State<CustomCard> {
                     maxLines: 2,
                   ),
                   SizedBox(height: screenHeight * 0.005),
-
+                  Text('${widget.time}min', style: AppFonts.textStyle16),
                   // SizedBox(height: screenHeight * 0.005),
                   // Row(
                   //   children: List.generate(

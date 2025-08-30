@@ -7,13 +7,13 @@ class CustomTextFiled extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
-    required this.prefixIcon,
+    this.prefixIcon,
     required this.obscureText,
     this.suffixIcon,
   });
   final TextEditingController? controller;
   final String hintText;
-  final Widget prefixIcon;
+  final Widget? prefixIcon;
   final bool obscureText;
   final Widget? suffixIcon;
 
@@ -32,7 +32,9 @@ class CustomTextFiled extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: AppFonts.textStyle18,
+        hintStyle: AppFonts.textStyle18.copyWith(
+          color: appWhiteColor.withValues(alpha: 0.5),
+        ),
         prefixIcon: prefixIcon,
         fillColor: appBlueColor,
         prefixIconColor: appWhiteColor,

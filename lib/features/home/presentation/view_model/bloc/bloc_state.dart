@@ -1,17 +1,18 @@
 import '../../../domain/entites/foodCategory.dart';
 
-sealed class TaskState {}
-
-class TaskInitial extends TaskState {}
-
-class FavoriteUpdated extends TaskState {
+sealed class TaskState {
+  final List<Food> homeFood;
   final List<Food> favorites;
 
-  FavoriteUpdated(this.favorites);
+  const TaskState({required this.homeFood, required this.favorites});
 }
 
-class KeepFavoriteUpdated extends TaskState {
-  final List<Food> favorites;
-
-  KeepFavoriteUpdated(this.favorites);
+class TaskInitial extends TaskState {
+  TaskInitial() : super(favorites: [], homeFood: []);
 }
+
+class TaskLoaded extends TaskState {
+  const TaskLoaded({required super.homeFood, required super.favorites});
+}
+
+

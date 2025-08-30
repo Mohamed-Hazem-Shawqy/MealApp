@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meal_app/core/function/bloc_observer.dart';
@@ -18,6 +19,7 @@ import 'features/home/presentation/view_model/bloc/taskBloc.dart';
 
 void main() async {
   Bloc.observer = AppBlocObserver();
+  await dotenv.load(fileName: 'api_key.env');
   WidgetsFlutterBinding.ensureInitialized();
 
   HydratedBloc.storage = await HydratedStorage.build(

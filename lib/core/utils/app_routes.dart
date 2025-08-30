@@ -12,10 +12,10 @@ import 'package:meal_app/features/productdetails/presention/view/meal_details_pa
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AppRoutes {
-  static const kLogin = '/';
+  static const kLogin = '/Login';
   static const kCustomNav = '/CustomNav';
   static const kSignup = '/signup';
-  static const kOnboardingScreenOne = '/OnboardingScreenOne';
+  static const kOnboardingScreenOne = '/';
   static const kOnboardingScreenTwo = '/OnboardingScreenTwo';
   static const kChatPage = '/ChatPage';
   static const kProfileScreen = '/ProfileScreen';

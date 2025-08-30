@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:meal_app/features/gemini/data/model.dart';
 import 'package:meal_app/features/gemini/domain/repo_decl.dart';
@@ -13,14 +14,13 @@ class RepoImpl implements RepoDecl {
   RepoImpl()
     : _model = GenerativeModel(
         model: "gemini-2.0-flash",
-        apiKey: "AIzaSyAbF7I-cHkU_EBXZlv23P29pFHwm0yEhfQ",
+        apiKey:
+            dotenv.env['API_KEY3'] ??
+            (throw Exception("API_KEY is missing in .env file")),
         generationConfig: GenerationConfig(
           responseMimeType: "application/json",
         ),
       );
-
-  // AIzaSyCY5WBbA4EDbG-YQ-W5kW8hisEUmSBJNbA   (cloud)
-  //AIzaSyCE_2j-vGUDY7ReUoIvynwsLJeor3T6_SU    (Ai Studio)
 
   @override
   Future geminiChat(String text) async {
@@ -68,7 +68,7 @@ Additional Rules:
     if (jsonData.containsKey("Name")) {
       final dishName = jsonData["Name"];
       final imageUrl = await getDishImage(dishName);
-      jsonData["image"] = imageUrl ?? ""; // overwrite AI’s image
+      jsonData["image"] = imageUrl ?? "";
     }
     return GeminiResponseShapeModel.fromJson(jsonData);
   }
@@ -91,7 +91,7 @@ Additional Rules:
     const String imageUrl = '/recipes/complexSearch';
 
     Uri url = Uri.https(baseUrl, imageUrl, {
-      'apiKey': 'e2a21c9bc1754ab9bd830d5d65bf7a7d',
+      'apiKey': dotenv.env['Spooncular_api_key'],
       'query': dishName,
       'number': '1',
     });

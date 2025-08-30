@@ -23,6 +23,7 @@ dependencies:
   http: ^1.5.0
   hydrated_bloc: ^10.1.1
   path_provider: ^2.1.5
+  flutter_dotenv: ^6.0.0
  
 
 
@@ -43,6 +44,8 @@ flutter:
     - assets/images/onboardingimages/view-tasty-shawarma-dish 2.png
     - assets/images/onboardingimages/heart (1).png
     - assets/images/
+    - api_key.env
+    
 
   fonts:
     - family: inter

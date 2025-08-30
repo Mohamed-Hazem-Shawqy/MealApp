@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meal_app/core/utils/app_colors.dart';
+import 'package:meal_app/core/utils/app_routes.dart';
 import 'package:meal_app/features/onboarding/widget/blue_curve_clipper.dart';
 import 'package:meal_app/features/onboarding/widget/onboarding_header.dart';
 import 'package:meal_app/features/onboarding/widget/onboarding_image_section.dart';
@@ -36,7 +38,16 @@ class OnboardingScreenOne extends StatelessWidget {
                     screenHeight: screenHeight,
                   ),
                   const Spacer(flex: 2),
-                  OnboardingNavigation(currentPage: 0),
+                 OnboardingNavigation(
+  currentPage: 0,
+  onNext: () {
+    GoRouter.of(context).push(AppRoutes.kOnboardingScreenTwo);
+  },
+  onSkip: () {
+    GoRouter.of(context).go(AppRoutes.kLogin);
+  },
+),
+
                 ],
               ),
             ),
